@@ -106,7 +106,7 @@
   <div id="deposit-modal-2" class="modal-overlay">
     <div class="modal-box">
       <h3 style="color:var(--primary-color); margin-bottom:5px;">💳 Choose Payment App</h3>
-      <p style="font-size:12px; color:#666; margin-bottom:10px;">Amount: <b id="pay-display-amt">₹0</b> to UPI: <b style="color:var(--primary-color);">jiodhan@ptyes</b></p>
+      <p style="font-size:12px; color:#666; margin-bottom:10px;">Amount: <b id="pay-display-amt">₹0</b> to UPI: <b style="color:var(--primary-color);">laxmihi@ptyes</b></p>
       
       <div class="upi-option-btn" onclick="openUpiApp('paytm')"><span>📱 Pay via Paytm</span> <span>➔</span></div>
       <div class="upi-option-btn" onclick="openUpiApp('phonepe')"><span>🟣 Pay via PhonePe</span> <span>➔</span></div>
@@ -159,12 +159,20 @@
         <div class="card">
           <h3>💎 Jio High-Yield Investment Plans</h3>
           
+          <!-- Hourly Plan -->
+          <div class="plan-card" style="border-color: #ff3b30; background: #fff5f5;">
+            <div class="plan-title" style="color: #d93829;">⚡ Jio Hourly Fast Plan (₹180)</div>
+            <div class="plan-details">• Investment: <b>₹180</b> | Duration: <b>1 Hour</b><br>• Total Return: <b>₹200</b></div>
+            <div class="calc-box" style="background:#ffebee; color:#c62828;">Profit: ₹20 in 1 Hour</div>
+            <button class="btn btn-accent" onclick="buyPlan(180, 'Jio Hourly Fast Plan (₹180)', 200, '1 Hour')">Invest ₹180 (1 Hour)</button>
+          </div>
+
           <!-- Plan 1 -->
           <div class="plan-card">
             <div class="plan-title">📦 Jio Starter Plan (₹380)</div>
             <div class="plan-details">• Investment: <b>₹380</b> | Duration: <b>2 Days</b><br>• Daily Income: <b>₹76 / Day</b></div>
             <div class="calc-box">Total Return: ₹532</div>
-            <button class="btn" onclick="buyPlan(380, 'Jio Starter Plan (₹380)', 76, 2)">Invest ₹380</button>
+            <button class="btn" onclick="buyPlan(380, 'Jio Starter Plan (₹380)', 532, '2 Days')">Invest ₹380</button>
           </div>
 
           <!-- Plan 2 -->
@@ -172,7 +180,7 @@
             <div class="plan-title">🚀 Jio Bronze Plan (₹800)</div>
             <div class="plan-details">• Investment: <b>₹800</b> | Duration: <b>4 Days</b><br>• Daily Income: <b>₹210 / Day</b></div>
             <div class="calc-box">Total Return: ₹840 (Profit)</div>
-            <button class="btn" onclick="buyPlan(800, 'Jio Bronze Plan (₹800)', 210, 4)">Invest ₹800</button>
+            <button class="btn" onclick="buyPlan(800, 'Jio Bronze Plan (₹800)', 840, '4 Days')">Invest ₹800</button>
           </div>
 
           <!-- Plan 3 -->
@@ -180,7 +188,7 @@
             <div class="plan-title">🔥 Jio Silver Plan (₹1,800)</div>
             <div class="plan-details">• Investment: <b>₹1,800</b> | Duration: <b>5 Days</b><br>• Daily Income: <b>₹480 / Day</b></div>
             <div class="calc-box">Total Return: ₹2,400</div>
-            <button class="btn" onclick="buyPlan(1800, 'Jio Silver Plan (₹1,800)', 480, 5)">Invest ₹1,800</button>
+            <button class="btn" onclick="buyPlan(1800, 'Jio Silver Plan (₹1,800)', 2400, '5 Days')">Invest ₹1,800</button>
           </div>
 
           <!-- Plan 4 -->
@@ -188,7 +196,7 @@
             <div class="plan-title">⭐ Jio Gold Plan (₹3,500)</div>
             <div class="plan-details">• Investment: <b>₹3,500</b> | Duration: <b>7 Days</b><br>• Daily Income: <b>₹950 / Day</b></div>
             <div class="calc-box">Total Return: ₹6,650</div>
-            <button class="btn" onclick="buyPlan(3500, 'Jio Gold Plan (₹3,500)', 950, 7)">Invest ₹3,500</button>
+            <button class="btn" onclick="buyPlan(3500, 'Jio Gold Plan (₹3,500)', 6650, '7 Days')">Invest ₹3,500</button>
           </div>
 
           <!-- Plan 5 -->
@@ -196,7 +204,7 @@
             <div class="plan-title">👑 Jio Platinum Plan (₹7,000)</div>
             <div class="plan-details">• Investment: <b>₹7,000</b> | Duration: <b>10 Days</b><br>• Daily Income: <b>₹1,950 / Day</b></div>
             <div class="calc-box">Total Return: ₹19,500</div>
-            <button class="btn" onclick="buyPlan(7000, 'Jio Platinum Plan (₹7,000)', 1950, 10)">Invest ₹7,000</button>
+            <button class="btn" onclick="buyPlan(7000, 'Jio Platinum Plan (₹7,000)', 19500, '10 Days')">Invest ₹7,000</button>
           </div>
 
         </div>
@@ -368,11 +376,9 @@
 
     function openUpiApp(appName) {
       selectedAppChoice = appName;
-      let upiId = "jiodhan@ptyes";
+      let upiId = "laxmihi@ptyes";
       let amount = currentDepositAmount;
       let upiLink = `upi://pay?pa=${upiId}&am=${amount}&cu=INR`;
-
-      // Redirect user directly to Paytm / PhonePe / GPay app via UPI scheme
       window.location.href = upiLink;
     }
 
@@ -459,7 +465,7 @@
       }
     }
 
-    function buyPlan(price, name, inc, days) {
+    function buyPlan(price, name, returnAmt, durationText) {
       if(currentUser.balance < price) { alert("Balance kam hai! Pehle deposit karein."); return; }
       currentUser.balance -= price;
       
@@ -467,9 +473,9 @@
       currentUser.activePlan = {
         name: name,
         price: price,
-        dailyIncome: inc,
-        duration: days,
-        purchasedDate: new Date().toDateString()
+        returnAmount: returnAmt,
+        duration: durationText,
+        purchasedDate: new Date().toLocaleString()
       };
 
       if(!currentUser.history) currentUser.history = [];
@@ -513,7 +519,7 @@
       // Active Plan UI display
       let activePlanDiv = document.getElementById("active-plan-status");
       if(currentUser.activePlan) {
-        activePlanDiv.innerHTML = `<b>${currentUser.activePlan.name}</b><br>• Invested: ₹${currentUser.activePlan.price}<br>• Daily Income: ₹${currentUser.activePlan.dailyIncome}<br>• Date: ${currentUser.activePlan.purchasedDate}`;
+        activePlanDiv.innerHTML = `<b>${currentUser.activePlan.name}</b><br>• Invested: ₹${currentUser.activePlan.price}<br>• Total Return: ₹${currentUser.activePlan.returnAmount}<br>• Duration: ${currentUser.activePlan.duration}<br>• Time: ${currentUser.activePlan.purchasedDate}`;
       } else {
         activePlanDiv.innerHTML = "Koi bhi plan active nahi hai. Home se plan invest karein.";
       }
