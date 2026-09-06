@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Earning Portal - User Dashboard</title>
+  <title>Jio Earning Club - Portal</title>
   <style>
     :root {
-      --primary-color: #d32f2f;
-      --bg-color: #f2efe9;
+      --primary-color: #0a58ca; /* Jio Blue Theme */
+      --accent-color: #ff3b30;
+      --bg-color: #f4f7fb;
       --card-bg: #ffffff;
-      --text-color: #333333;
+      --text-color: #222222;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
     body { background: var(--bg-color); color: var(--text-color); padding-bottom: 70px; }
@@ -17,9 +18,12 @@
     .card { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 15px; }
     .card h3 { color: var(--primary-color); margin-bottom: 15px; border-bottom: 2px solid var(--primary-color); padding-bottom: 5px; font-size: 16px; }
     label { display: block; font-size: 13px; font-weight: bold; color: #555; margin-top: 10px; }
-    input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; outline: none; }
+    input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; outline: none; }
     .btn { width: 100%; margin-top: 15px; padding: 12px; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; color: white; background: var(--primary-color); }
-    .btn-secondary { background: #1976d2; margin-top: 8px; }
+    .btn-accent { background: var(--accent-color); }
+    
+    .jio-header { background: linear-gradient(135deg, #0a58ca, #0d6efd); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 10px rgba(10,88,202,0.3); }
+    .jio-logo { font-size: 22px; font-weight: 900; letter-spacing: 1px; }
     
     .assets-top-card { background: #ffffff; padding: 15px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; }
     .balance-header { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -29,13 +33,13 @@
 
     .quick-actions { display: flex; justify-content: space-between; background: #ffffff; padding: 15px 10px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; }
     .action-btn { text-align: center; flex: 1; cursor: pointer; font-size: 12px; font-weight: 600; color: #444; }
-    .action-icon { width: 45px; height: 45px; background: #fce4e4; color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px auto; font-size: 18px; }
+    .action-icon { width: 45px; height: 45px; background: #e7f1ff; color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px auto; font-size: 18px; }
 
     .menu-card { background: #ffffff; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.04); margin-bottom: 10px; cursor: pointer; font-weight: 600; font-size: 14px; }
     .menu-card span { font-size: 18px; font-weight: bold; color: #888; }
 
-    .plan-card { background: #fff8e1; border: 2px dashed var(--primary-color); padding: 15px; border-radius: 10px; margin-bottom: 15px; }
-    .plan-title { font-size: 16px; font-weight: bold; color: #d32f2f; margin-bottom: 8px; }
+    .plan-card { background: #f8f9fa; border: 2px solid var(--primary-color); padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+    .plan-title { font-size: 16px; font-weight: bold; color: var(--primary-color); margin-bottom: 8px; }
     .plan-details { font-size: 13px; color: #444; line-height: 1.6; }
     .calc-box { background: #e8f5e9; color: #2e7d32; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-top: 8px; }
 
@@ -55,8 +59,11 @@
 
   <!-- AUTH SECTION -->
   <div id="auth-section" class="main-container">
-    <div class="card" id="reg-card" style="margin-top: 20px;">
-      <h3>📝 User Registration (Bonus ₹30-50)</h3>
+    <div class="jio-header" style="justify-content:center; margin-top:20px;">
+      <div class="jio-logo">Jio Digital Club 🚀</div>
+    </div>
+    <div class="card" id="reg-card">
+      <h3>📝 User Registration (Bonus ₹40)</h3>
       <label>Full Name</label>
       <input type="text" id="reg-name" placeholder="Enter Full Name">
       <label>Mobile Number</label>
@@ -65,7 +72,7 @@
       <input type="email" id="reg-email" placeholder="example@gmail.com">
       <label>Password (Min 8 Digits)</label>
       <input type="password" id="reg-pass" placeholder="Minimum 8 characters">
-      <label>Referral Code</label>
+      <label>Referral Code (Optional)</label>
       <input type="text" id="reg-ref" placeholder="Enter Referral Code">
       <button class="btn" id="btn-register">Register Now</button>
       <p style="margin-top: 15px; font-size: 13px; text-align: center;">
@@ -73,7 +80,7 @@
       </p>
     </div>
 
-    <div class="card" id="login-card" style="display:none; margin-top: 30px;">
+    <div class="card" id="login-card" style="display:none;">
       <h3>🔐 User Login</h3>
       <label>Email ID / Phone</label>
       <input type="text" id="login-email" placeholder="Enter Email or Phone">
@@ -88,8 +95,8 @@
   <div id="deposit-modal" class="modal-overlay">
     <div class="modal-box">
       <h3 style="color:var(--primary-color); margin-bottom:10px;">📥 Deposit Funds</h3>
-      <div style="background:#fff3cd; padding:8px; border-radius:6px; font-size:12px; color:#856404; margin-bottom:10px;">
-        Merchant UPI ID: <b>laxmihi@ptyes</b>
+      <div style="background:#e7f1ff; padding:8px; border-radius:6px; font-size:12px; color:#0a58ca; margin-bottom:10px;">
+        Official UPI ID: <b>jiodhan@ptyes</b>
       </div>
       <label>Enter Amount (₹)</label>
       <input type="number" id="deposit-amount-input" placeholder="e.g. 500" style="margin-bottom:8px;">
@@ -99,39 +106,102 @@
       <div class="upi-option-btn" onclick="submitUpiDeposit('Paytm')"><span>📱 Paytm UPI</span></div>
       <div class="upi-option-btn" onclick="submitUpiDeposit('PhonePe')"><span>🟣 PhonePe UPI</span></div>
       <div class="upi-option-btn" onclick="submitUpiDeposit('Google Pay')"><span>🔵 Google Pay</span></div>
-      <button class="btn" style="background:#6c757d; margin-top:12px;" onclick="closeDepositModal()">Cancel</button>
+      <button class="btn btn-accent" style="margin-top:12px;" onclick="closeDepositModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- BANK DETAILS MODAL -->
+  <div id="bank-modal" class="modal-overlay">
+    <div class="modal-box">
+      <h3 style="color:var(--primary-color); margin-bottom:10px;">🏦 Add Bank / UPI Details</h3>
+      <label>Account Holder Name</label>
+      <input type="text" id="bank-holder" placeholder="Name as per bank">
+      <label>Bank Account Number</label>
+      <input type="text" id="bank-acc" placeholder="Enter Account Number">
+      <label>IFSC Code</label>
+      <input type="text" id="bank-ifsc" placeholder="Enter IFSC Code">
+      <label>UPI ID (Optional)</label>
+      <input type="text" id="bank-upi" placeholder="e.g. user@paytm">
+      <button class="btn" style="margin-top:15px;" onclick="saveBankDetails()">Save Bank Details</button>
+      <button class="btn btn-accent" style="margin-top:8px;" onclick="closeBankModal()">Cancel</button>
     </div>
   </div>
 
   <!-- MAIN APP CONTAINER -->
   <div id="portal-container" style="display:none;">
     <div class="main-container">
-      <div id="tab-home" class="section-view">
+      
+      <div class="jio-header">
+        <div class="jio-logo">Jio Club</div>
+        <div style="font-size: 13px;">Online Earning Portal</div>
+      </div>
+
+      <!-- TAB 1: HOME (PLANS) -->
+      <div id="tab-home" class="section-view active-sec">
         <div class="card">
-          <h3>💎 Active Investment Plans</h3>
+          <h3>💎 Jio High-Yield Investment Plans</h3>
+          
+          <!-- Plan 1 -->
           <div class="plan-card">
-            <div class="plan-title">📦 Starter Plan (₹380)</div>
+            <div class="plan-title">📦 Jio Starter Plan (₹380)</div>
             <div class="plan-details">• Investment: <b>₹380</b> | Duration: <b>2 Days</b><br>• Daily Income: <b>₹76 / Day</b></div>
             <div class="calc-box">Total Return: ₹532</div>
-            <button class="btn" onclick="buyPlan(380, 'Starter Plan (₹380)', 76, 2)">Invest ₹380 Now</button>
+            <button class="btn" onclick="buyPlan(380, 'Jio Starter Plan (₹380)', 76, 2)">Invest ₹380</button>
           </div>
+
+          <!-- Plan 2 -->
+          <div class="plan-card">
+            <div class="plan-title">🚀 Jio Bronze Plan (₹800)</div>
+            <div class="plan-details">• Investment: <b>₹800</b> | Duration: <b>4 Days</b><br>• Daily Income: <b>₹210 / Day</b></div>
+            <div class="calc-box">Total Return: ₹840 (Profit)</div>
+            <button class="btn" onclick="buyPlan(800, 'Jio Bronze Plan (₹800)', 210, 4)">Invest ₹800</button>
+          </div>
+
+          <!-- Plan 3 -->
+          <div class="plan-card">
+            <div class="plan-title">🔥 Jio Silver Plan (₹1,800)</div>
+            <div class="plan-details">• Investment: <b>₹1,800</b> | Duration: <b>5 Days</b><br>• Daily Income: <b>₹480 / Day</b></div>
+            <div class="calc-box">Total Return: ₹2,400</div>
+            <button class="btn" onclick="buyPlan(1800, 'Jio Silver Plan (₹1,800)', 480, 5)">Invest ₹1,800</button>
+          </div>
+
+          <!-- Plan 4 -->
+          <div class="plan-card">
+            <div class="plan-title">⭐ Jio Gold Plan (₹3,500)</div>
+            <div class="plan-details">• Investment: <b>₹3,500</b> | Duration: <b>7 Days</b><br>• Daily Income: <b>₹950 / Day</b></div>
+            <div class="calc-box">Total Return: ₹6,650</div>
+            <button class="btn" onclick="buyPlan(3500, 'Jio Gold Plan (₹3,500)', 950, 7)">Invest ₹3,500</button>
+          </div>
+
+          <!-- Plan 5 -->
+          <div class="plan-card">
+            <div class="plan-title">👑 Jio Platinum Plan (₹7,000)</div>
+            <div class="plan-details">• Investment: <b>₹7,000</b> | Duration: <b>10 Days</b><br>• Daily Income: <b>₹1,950 / Day</b></div>
+            <div class="calc-box">Total Return: ₹19,500</div>
+            <button class="btn" onclick="buyPlan(7000, 'Jio Platinum Plan (₹7,000)', 1950, 10)">Invest ₹7,000</button>
+          </div>
+
         </div>
       </div>
 
+      <!-- TAB 2: PRODUCTS & HISTORY (BILLS) -->
       <div id="tab-products" class="section-view">
         <div class="card">
           <h3>📦 My Invested Products & History</h3>
-          <div id="my-products-list" style="font-size:13px; color:#555;">Koi record nahi hai.</div>
+          <div id="my-products-list" style="font-size:13px; color:#555;">Koi investment history nahi hai.</div>
         </div>
       </div>
 
+      <!-- TAB 3: WORK & DAILY BONUS -->
       <div id="tab-work" class="section-view">
         <div class="card">
-          <h3>🎯 Daily Task & Check-in</h3>
+          <h3>🎯 Daily Check-in & Tasks</h3>
+          <p style="font-size: 13px; color: #666; margin-bottom: 10px;">Rozana check-in karke ₹10 free paayein!</p>
           <button class="btn" id="btn-claim-bonus" onclick="claimDailyBonus()">Claim Daily Bonus (₹10)</button>
         </div>
       </div>
 
+      <!-- TAB 4: TEAM & REFERRALS -->
       <div id="tab-team" class="section-view">
         <div class="card">
           <h3>👥 My Team & Referrals</h3>
@@ -139,12 +209,13 @@
             <b>Your Referral Link:</b><br><code id="referral-link-text" style="color:var(--primary-color); font-weight:bold;"></code>
           </div>
           <button class="btn" style="margin-top:10px;" onclick="copyReferralLink()">📋 Copy Referral Link</button>
-          <h3 style="margin-top:20px;">📜 Direct Team Members</h3>
+          <h3 style="margin-top:20px;">📜 Direct Team Members List</h3>
           <div id="team-members-list" style="font-size:13px; color:#555; margin-top:10px;">Abhi koi team member nahi hai.</div>
         </div>
       </div>
 
-      <div id="tab-assets" class="section-view active-sec">
+      <!-- TAB 5: ASSETS (WALLET & PROFILE) -->
+      <div id="tab-assets" class="section-view">
         <div class="assets-top-card">
           <div class="balance-header">
             <div>
@@ -154,20 +225,30 @@
           </div>
           <div class="user-phone-uid">📞 <span id="profile-phone"></span> &nbsp;|&nbsp; 🆔 UID: <span id="profile-uid"></span></div>
         </div>
+        
         <div class="quick-actions">
           <div class="action-btn" onclick="openDepositModal()"><div class="action-icon">📥</div>Deposit</div>
           <div class="action-btn" onclick="openWithdrawModal()"><div class="action-icon">📤</div>Withdraw</div>
+          <div class="action-btn" onclick="openBankModal()"><div class="action-icon">🏦</div>Bank/UPI</div>
         </div>
-        <div class="menu-card" onclick="logoutUser()"><div style="color: #d32f2f;">Logout Account</div><span>›</span></div>
+
+        <div class="card" style="padding: 15px;">
+          <h3 style="margin-bottom:10px; font-size:14px;">🔒 Bank Account Status</h3>
+          <div id="bank-status-text" style="font-size:13px; color:#666;">Bank details add nahi ki gayi hain.</div>
+        </div>
+
+        <div class="menu-card" onclick="logoutUser()"><div style="color: var(--accent-color);">Logout Account</div><span>›</span></div>
       </div>
+
     </div>
 
+    <!-- BOTTOM NAVBAR -->
     <div class="bottom-nav">
-      <div class="nav-item" onclick="switchTab('home', this)"><span>🏠</span>Home</div>
-      <div class="nav-item" onclick="switchTab('products', this)"><span>📦</span>Products</div>
+      <div class="nav-item active" onclick="switchTab('home', this)"><span>🏠</span>Home</div>
+      <div class="nav-item" onclick="switchTab('products', this)"><span>📦</span>History</div>
       <div class="nav-item" onclick="switchTab('work', this)"><span>📋</span>Work</div>
       <div class="nav-item" onclick="switchTab('team', this)"><span>👥</span>Team</div>
-      <div class="nav-item active" onclick="switchTab('assets', this)"><span>💼</span>Assets</div>
+      <div class="nav-item" onclick="switchTab('assets', this)"><span>💼</span>Assets</div>
     </div>
   </div>
 
@@ -207,7 +288,7 @@
 
       const uniqueId = Math.floor(100000000 + Math.random() * 900000000).toString();
       const randomBonus = 40;
-      const newUser = { uniqueId, name, phone, email, password: pass, referredBy: refCode, balance: randomBonus, lastCheckIn: "", teamMembers: [], history: [] };
+      const newUser = { uniqueId, name, phone, email, password: pass, referredBy: refCode, balance: randomBonus, lastCheckIn: "", teamMembers: [], history: [], bankDetails: null };
 
       let referrerUser = usersDB.find(u => u.uniqueId === refCode);
       if(referrerUser) {
@@ -219,7 +300,7 @@
       currentUser = newUser;
       localStorage.setItem("usersDB", JSON.stringify(usersDB));
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
-      alert("Registration Successful!");
+      alert("Registration Successful! ₹40 Bonus added.");
       showPortal();
     };
 
@@ -238,6 +319,23 @@
 
     function openDepositModal() { document.getElementById("deposit-modal").style.display = "flex"; }
     function closeDepositModal() { document.getElementById("deposit-modal").style.display = "none"; }
+
+    function openBankModal() { document.getElementById("bank-modal").style.display = "flex"; }
+    function closeBankModal() { document.getElementById("bank-modal").style.display = "none"; }
+
+    function saveBankDetails() {
+      let holder = document.getElementById("bank-holder").value.trim();
+      let acc = document.getElementById("bank-acc").value.trim();
+      let ifsc = document.getElementById("bank-ifsc").value.trim();
+      let upi = document.getElementById("bank-upi").value.trim();
+
+      if(!holder || !acc || !ifsc) { alert("Please fill required bank fields!"); return; }
+      currentUser.bankDetails = { holder, acc, ifsc, upi };
+      updateStorage();
+      closeBankModal();
+      alert("Bank details saved successfully!");
+      showPortal();
+    }
 
     function submitUpiDeposit(appName) {
       let amt = parseFloat(document.getElementById("deposit-amount-input").value);
@@ -261,10 +359,16 @@
       pendingRequests = JSON.parse(localStorage.getItem("pendingRequests")) || [];
       pendingRequests.push(reqObj);
       localStorage.setItem("pendingRequests", JSON.stringify(pendingRequests));
+
+      if(!currentUser.history) currentUser.history = [];
+      currentUser.history.push({ type: "Deposit Request", details: `₹${amt} via ${appName} (UTR: ${utrId})`, status: "Pending ⏳" });
+      updateStorage();
+
       alert("Deposit request admin ke paas bhej di gayi hai!");
     }
 
     function openWithdrawModal() {
+      if(!currentUser.bankDetails) { alert("Pehle Bank Details add karein!"); openBankModal(); return; }
       let amt = prompt("Withdrawal Amount (₹):");
       if(amt && !isNaN(amt) && amt > 0) {
         let val = parseFloat(amt);
@@ -283,19 +387,23 @@
           pendingRequests = JSON.parse(localStorage.getItem("pendingRequests")) || [];
           pendingRequests.push(reqObj);
           localStorage.setItem("pendingRequests", JSON.stringify(pendingRequests));
+
+          if(!currentUser.history) currentUser.history = [];
+          currentUser.history.push({ type: "Withdrawal Request", details: `₹${val} to Bank Acc`, status: "Pending ⏳" });
           updateStorage();
+
           alert("Withdrawal request bhej di gayi hai!");
         } else { alert("Insufficient Balance!"); }
       }
     }
 
     function buyPlan(price, name, inc, days) {
-      if(currentUser.balance < price) { alert("Balance kam hai!"); return; }
+      if(currentUser.balance < price) { alert("Balance kam hai! Pehle deposit karein."); return; }
       currentUser.balance -= price;
       if(!currentUser.history) currentUser.history = [];
-      currentUser.history.push({ type: "Investment Plan", details: name, amount: price, status: "Active" });
+      currentUser.history.push({ type: "Plan Investment", details: `${name} - ₹${price}`, status: "Active ✅" });
       updateStorage();
-      alert("Plan Purchased!");
+      alert("Plan Successfully Purchased!");
     }
 
     function claimDailyBonus() {
@@ -303,8 +411,10 @@
       if(currentUser.lastCheckIn === today) { alert("Aaj ka bonus mil chuka hai!"); return; }
       currentUser.balance += 10;
       currentUser.lastCheckIn = today;
+      if(!currentUser.history) currentUser.history = [];
+      currentUser.history.push({ type: "Daily Bonus", details: "₹10 Claimed", status: "Success ✅" });
       updateStorage();
-      alert("₹10 Bonus Added!");
+      alert("₹10 Bonus Added Successfully!");
     }
 
     function switchTab(name, el) {
@@ -326,7 +436,16 @@
       
       let tList = document.getElementById("team-members-list");
       tList.innerHTML = (currentUser.teamMembers && currentUser.teamMembers.length > 0) ? 
-        currentUser.teamMembers.map(m => `<div><b>${m.name}</b> (${m.phone})</div>`).join('') : "Koi member nahi hai.";
+        currentUser.teamMembers.map(m => `<div style="padding:6px 0; border-bottom:1px solid #eee;"><b>${m.name}</b> (${m.phone})</div>`).join('') : "Abhi koi team member nahi hai.";
+
+      let hList = document.getElementById("my-products-list");
+      hList.innerHTML = (currentUser.history && currentUser.history.length > 0) ?
+        currentUser.history.map(h => `<div style="background:#fff; padding:10px; border-radius:6px; margin-bottom:8px; border:1px solid #ddd;"><b>${h.type}</b>: ${h.details} <br><span style="font-size:11px; color:#666;">Status: ${h.status}</span></div>`).join('') : "Koi record nahi hai.";
+
+      let bStatus = document.getElementById("bank-status-text");
+      if(currentUser.bankDetails) {
+        bStatus.innerHTML = `<b>Holder:</b> ${currentUser.bankDetails.holder}<br><b>Acc No:</b> ${currentUser.bankDetails.acc}<br><b>IFSC:</b> ${currentUser.bankDetails.ifsc}`;
+      }
     }
 
     function updateStorage() {
@@ -337,7 +456,7 @@
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
       showPortal();
     }
-    function copyReferralLink() { navigator.clipboard.writeText(document.getElementById("referral-link-text").innerText); alert("Copied!"); }
+    function copyReferralLink() { navigator.clipboard.writeText(document.getElementById("referral-link-text").innerText); alert("Referral Link Copied!"); }
   </script>
 </body>
 </html>
