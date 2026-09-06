@@ -72,8 +72,8 @@
       <input type="email" id="reg-email" placeholder="example@gmail.com">
       <label>Password (Min 8 Digits)</label>
       <input type="password" id="reg-pass" placeholder="Minimum 8 characters">
-      <label>Referral Code (Optional)</label>
-      <input type="text" id="reg-ref" placeholder="Enter Referral Code">
+      <label>Referral Code (Auto-filled via link)</label>
+      <input type="text" id="reg-ref" placeholder="Optional Referral Code">
       <button class="btn" id="btn-register">Register Now</button>
       <p style="margin-top: 15px; font-size: 13px; text-align: center;">
         Already Registered? <a href="#" id="link-show-login" style="color:var(--primary-color);">Login Here</a>
@@ -260,7 +260,13 @@
     window.onload = function() {
       const urlParams = new URLSearchParams(window.location.search);
       const refCode = urlParams.get('ref');
-      if(refCode) document.getElementById("reg-ref").value = refCode;
+      if(refCode) {
+        document.getElementById("reg-ref").value = refCode;
+        localStorage.setItem("savedRefCode", refCode);
+      } else {
+        let savedRef = localStorage.getItem("savedRefCode");
+        if(savedRef) document.getElementById("reg-ref").value = savedRef;
+      }
       
       if(currentUser && currentUser.email) {
         let latest = usersDB.find(u => u.email === currentUser.email);
@@ -293,13 +299,17 @@
       let referrerUser = usersDB.find(u => u.uniqueId === refCode);
       if(referrerUser) {
         if(!referrerUser.teamMembers) referrerUser.teamMembers = [];
-        referrerUser.teamMembers.push({ name, uniqueId, phone, date: new Date().toDateString() });
+        // Check duplicate entry check
+        if(!referrerUser.teamMembers.some(m => m.uniqueId === uniqueId)) {
+          referrerUser.teamMembers.push({ name, uniqueId, phone, date: new Date().toDateString() });
+        }
       }
 
       usersDB.push(newUser);
       currentUser = newUser;
       localStorage.setItem("usersDB", JSON.stringify(usersDB));
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      localStorage.removeItem("savedRefCode");
       alert("Registration Successful! ₹40 Bonus added.");
       showPortal();
     };
