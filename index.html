@@ -299,7 +299,6 @@
       let referrerUser = usersDB.find(u => u.uniqueId === refCode);
       if(referrerUser) {
         if(!referrerUser.teamMembers) referrerUser.teamMembers = [];
-        // Check duplicate entry check
         if(!referrerUser.teamMembers.some(m => m.uniqueId === uniqueId)) {
           referrerUser.teamMembers.push({ name, uniqueId, phone, date: new Date().toDateString() });
         }
