@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Control Panel</title>
+  <style>
+    body { background: #f2efe9; font-family: Arial, sans-serif; padding: 20px; }
+    .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h2 { color: #d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 5px; margin-bottom: 15px; }
+    input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 5px; }
+    button { background: #d32f2f; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 5px; }
+    .req-box { background: #f9f9f9; border: 1px solid #ddd; padding: 12px; border-radius: 6px; margin-bottom: 10px; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="admin-login-box">
+    <h2>🛡️ Admin Login Panel</h2>
+    <label>Admin Username</label>
+    <input type="text" id="admin-user" placeholder="Enter username (admin)">
+    <label>Admin Password</label>
+    <input type="password" id="admin-pass" placeholder="Enter password (admin123)">
+    <button onclick="loginAdmin()">Login</button>
+  </div>
+
+  <div class="container" id="admin-panel-box" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2>🛡️ Admin Dashboard</h2>
+      <button onclick="logoutAdmin()" style="width:auto; background:#333;">Logout</button>
+    </div>
+    
+    <h3 style="color:#1976d2; margin-top:15px;">📥 Pending Deposit Requests</h3>
+    <div id="admin-deposits">Koi deposit request nahi hai.</div>
+
+    <h3 style="color:#1976d2; margin-top:20px;">📤 Pending Withdrawal Requests</h3>
+    <div id="admin-withdrawals">Koi withdrawal request nahi hai.</div>
+  </div>
+
+  <script>
+    function loginAdmin() {
+      let u = document.getElementById("admin-user").value.trim();
+      let p = document.getElementById("admin-pass").value;
+      if(u === "admin" && p === "admin123") {
+        document.getElementById("admin-login-box").style.display = "none";
+        document.getElementById("admin-panel-box").style.display = "block";
+        loadRequests();
+      } else {
+        alert("Galat Username ya Password!");
+      }
+    }
+
+    function logoutAdmin() {
+      document.getElementById("admin-panel-box").style.display = "none";
+      document.getElementById("admin-login-box").style.display = "block";
+    }
+
+    function loadRequests() {
+      let pendingRequests = JSON.parse(localStorage.getItem("pendingRequests")) || [];
+      let usersDB = JSON.parse(localStorage.getItem("usersDB")) || [];
+
+      let dDiv = document.getElementById("admin-deposits");
+      let wDiv = document.getElementById("admin-withdrawals");
+
+      let deps = pendingRequests.filter(r => r.type === "Deposit" && r.status === "Pending ⏳");
+      let wits = pendingRequests.filter(r => r.type === "Withdrawal" && r.status === "Pending ⏳");
+
+      dDiv.innerHTML = deps.length === 0 ? "Koi deposit request nahi hai." : "";
+      deps.forEach(req => {
+        dDiv.innerHTML += `<div class="req-box">
+          <b>User:</b> ${req.userName} (${req.userPhone})<br>
+          <b>Amount:</b> ₹${req.amount} via ${req.appName}<br>
+          <b>UTR ID:</b> <span style="color:red; font-weight:bold;">${req.utrId}</span><br>
+          <button style="background:#2e7d32; width:48%;" onclick="processReq('${req.id}', 'approve')">Approve ✅</button>
+          <button style="background:#d32f2f; width:48%; margin-left:4%;" onclick="processReq('${req.id}', 'reject')">Reject ❌</button>
+        </div>`;
+      });
+
+      wDiv.innerHTML = wits.length === 0 ? "Koi withdrawal request nahi hai." : "";
+      wits.forEach(req => {
+        wDiv.innerHTML += `<div class="req-box">
+          <b>User:</b> ${req.userName} (${req.userPhone})<br>
+          <b>Withdrawal Amount:</b> ₹${req.amount}<br>
+          <button style="background:#2e7d32; width:48%;" onclick="processReq('${req.id}', 'approve')">Approve ✅</button>
+          <button style="background:#d32f2f; width:48%; margin-left:4%;" onclick="processReq('${req.id}', 'reject')">Reject ❌</button>
+        </div>`;
+      });
+    }
+
+    function processReq(id, action) {
+      let pendingRequests = JSON.parse(localStorage.getItem("pendingRequests")) || [];
+      let usersDB = JSON.parse(localStorage.getItem("usersDB")) || [];
+
+      let req = pendingRequests.find(r => r.id === id);
+      if(!req) return;
+
+      let user = usersDB.find(u => u.email === req.userEmail);
+
+      if(action === 'approve') {
+        req.status = "Approved ✅";
+        if(user && req.type === "Deposit") {
+          user.balance += req.amount;
+        }
+      } else {
+        req.status = "Rejected ❌";
+        if(user && req.type === "Withdrawal") {
+          user.balance += req.amount; // Refund back if rejected
+        }
+      }
+
+      localStorage.setItem("pendingRequests", JSON.stringify(pendingRequests));
+      localStorage.setItem("usersDB", JSON.stringify(usersDB));
+      alert("Successfully " + action + "d!");
+      loadRequests();
+    }
+  </script>
+</body>
+</html>
