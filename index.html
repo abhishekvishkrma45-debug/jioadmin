@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earning Portal - User Dashboard</title>
+  <style>
+    :root {
+      --primary-color: #d32f2f;
+      --bg-color: #f2efe9;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+    body { background: var(--bg-color); color: var(--text-color); padding-bottom: 70px; }
+    .main-container { max-width: 500px; margin: 0 auto; padding: 15px; }
+    .card { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 15px; }
+    .card h3 { color: var(--primary-color); margin-bottom: 15px; border-bottom: 2px solid var(--primary-color); padding-bottom: 5px; font-size: 16px; }
+    label { display: block; font-size: 13px; font-weight: bold; color: #555; margin-top: 10px; }
+    input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; outline: none; }
+    .btn { width: 100%; margin-top: 15px; padding: 12px; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; color: white; background: var(--primary-color); }
+    .btn-secondary { background: #1976d2; margin-top: 8px; }
+    
+    .assets-top-card { background: #ffffff; padding: 15px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; }
+    .balance-header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .balance-title { font-size: 12px; color: #777; }
+    .balance-amount { font-size: 24px; font-weight: 900; color: #111; margin-top: 2px; }
+    .user-phone-uid { font-size: 13px; color: #555; margin-top: 8px; font-weight: 600; }
+
+    .quick-actions { display: flex; justify-content: space-between; background: #ffffff; padding: 15px 10px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; }
+    .action-btn { text-align: center; flex: 1; cursor: pointer; font-size: 12px; font-weight: 600; color: #444; }
+    .action-icon { width: 45px; height: 45px; background: #fce4e4; color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px auto; font-size: 18px; }
+
+    .menu-card { background: #ffffff; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.04); margin-bottom: 10px; cursor: pointer; font-weight: 600; font-size: 14px; }
+    .menu-card span { font-size: 18px; font-weight: bold; color: #888; }
+
+    .plan-card { background: #fff8e1; border: 2px dashed var(--primary-color); padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+    .plan-title { font-size: 16px; font-weight: bold; color: #d32f2f; margin-bottom: 8px; }
+    .plan-details { font-size: 13px; color: #444; line-height: 1.6; }
+    .calc-box { background: #e8f5e9; color: #2e7d32; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-top: 8px; }
+
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; }
+    .modal-box { background: white; width: 90%; max-width: 400px; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); max-height: 85vh; overflow-y: auto; }
+    .upi-option-btn { width: 100%; padding: 10px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; font-weight: bold; cursor: pointer; text-align: left; background: #f9f9f9; display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
+
+    .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); padding: 8px 0; z-index: 1000; }
+    .nav-item { text-align: center; font-size: 11px; color: #777; cursor: pointer; font-weight: 600; flex: 1; }
+    .nav-item.active { color: var(--primary-color); }
+    .nav-item span { display: block; font-size: 20px; }
+    .section-view { display: none; }
+    .section-view.active-sec { display: block; }
+  </style>
+</head>
+<body>
+
+  <!-- AUTH SECTION -->
+  <div id="auth-section" class="main-container">
+    <div class="card" id="reg-card" style="margin-top: 20px;">
+      <h3>📝 User Registration (Bonus ₹30-50)</h3>
+      <label>Full Name</label>
+      <input type="text" id="reg-name" placeholder="Enter Full Name">
+      <label>Mobile Number</label>
+      <input type="text" id="reg-phone" placeholder="10-digit mobile number">
+      <label>Gmail Address</label>
+      <input type="email" id="reg-email" placeholder="example@gmail.com">
+      <label>Password (Min 8 Digits)</label>
+      <input type="password" id="reg-pass" placeholder="Minimum 8 characters">
+      <label>Referral Code</label>
+      <input type="text" id="reg-ref" placeholder="Enter Referral Code">
+      <button class="btn" id="btn-register">Register Now</button>
+      <p style="margin-top: 15px; font-size: 13px; text-align: center;">
+        Already Registered? <a href="#" id="link-show-login" style="color:var(--primary-color);">Login Here</a>
+      </p>
+    </div>
+
+    <div class="card" id="login-card" style="display:none; margin-top: 30px;">
+      <h3>🔐 User Login</h3>
+      <label>Email ID / Phone</label>
+      <input type="text" id="login-email" placeholder="Enter Email or Phone">
+      <label>Password</label>
+      <input type="password" id="login-pass" placeholder="Enter Password">
+      <button class="btn" id="btn-login">Login Portal</button>
+      <p style="margin-top:15px; text-align: center;"><a href="#" id="link-back-reg" style="color:var(--primary-color);">Back to Register</a></p>
+    </div>
+  </div>
+
+  <!-- DEPOSIT MODAL -->
+  <div id="deposit-modal" class="modal-overlay">
+    <div class="modal-box">
+      <h3 style="color:var(--primary-color); margin-bottom:10px;">📥 Deposit Funds</h3>
+      <div style="background:#fff3cd; padding:8px; border-radius:6px; font-size:12px; color:#856404; margin-bottom:10px;">
+        Merchant UPI ID: <b>laxmihi@ptyes</b>
+      </div>
+      <label>Enter Amount (₹)</label>
+      <input type="number" id="deposit-amount-input" placeholder="e.g. 500" style="margin-bottom:8px;">
+      <label>Enter 12-Digit UTR / Transaction ID</label>
+      <input type="text" id="deposit-utr-input" placeholder="e.g. 426512345678" style="margin-bottom:12px;">
+
+      <div class="upi-option-btn" onclick="submitUpiDeposit('Paytm')"><span>📱 Paytm UPI</span></div>
+      <div class="upi-option-btn" onclick="submitUpiDeposit('PhonePe')"><span>🟣 PhonePe UPI</span></div>
+      <div class="upi-option-btn" onclick="submitUpiDeposit('Google Pay')"><span>🔵 Google Pay</span></div>
+      <button class="btn" style="background:#6c757d; margin-top:12px;" onclick="closeDepositModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER -->
+  <div id="portal-container" style="display:none;">
+    <div class="main-container">
+      <div id="tab-home" class="section-view">
+        <div class="card">
+          <h3>💎 Active Investment Plans</h3>
+          <div class="plan-card">
+            <div class="plan-title">📦 Starter Plan (₹380)</div>
+            <div class="plan-details">• Investment: <b>₹380</b> | Duration: <b>2 Days</b><br>• Daily Income: <b>₹76 / Day</b></div>
+            <div class="calc-box">Total Return: ₹532</div>
+            <button class="btn" onclick="buyPlan(380, 'Starter Plan (₹380)', 76, 2)">Invest ₹380 Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-products" class="section-view">
+        <div class="card">
+          <h3>📦 My Invested Products & History</h3>
+          <div id="my-products-list" style="font-size:13px; color:#555;">Koi record nahi hai.</div>
+        </div>
+      </div>
+
+      <div id="tab-work" class="section-view">
+        <div class="card">
+          <h3>🎯 Daily Task & Check-in</h3>
+          <button class="btn" id="btn-claim-bonus" onclick="claimDailyBonus()">Claim Daily Bonus (₹10)</button>
+        </div>
+      </div>
+
+      <div id="tab-team" class="section-view">
+        <div class="card">
+          <h3>👥 My Team & Referrals</h3>
+          <div style="background:#f8f9fa; padding:12px; border-radius:6px; margin-top:10px; font-size:12px; word-break: break-all;">
+            <b>Your Referral Link:</b><br><code id="referral-link-text" style="color:var(--primary-color); font-weight:bold;"></code>
+          </div>
+          <button class="btn" style="margin-top:10px;" onclick="copyReferralLink()">📋 Copy Referral Link</button>
+          <h3 style="margin-top:20px;">📜 Direct Team Members</h3>
+          <div id="team-members-list" style="font-size:13px; color:#555; margin-top:10px;">Abhi koi team member nahi hai.</div>
+        </div>
+      </div>
+
+      <div id="tab-assets" class="section-view active-sec">
+        <div class="assets-top-card">
+          <div class="balance-header">
+            <div>
+              <div class="balance-title">Available Balance</div>
+              <div class="balance-amount">₹<span id="user-balance">0.00</span></div>
+            </div>
+          </div>
+          <div class="user-phone-uid">📞 <span id="profile-phone"></span> &nbsp;|&nbsp; 🆔 UID: <span id="profile-uid"></span></div>
+        </div>
+        <div class="quick-actions">
+          <div class="action-btn" onclick="openDepositModal()"><div class="action-icon">📥</div>Deposit</div>
+          <div class="action-btn" onclick="openWithdrawModal()"><div class="action-icon">📤</div>Withdraw</div>
+        </div>
+        <div class="menu-card" onclick="logoutUser()"><div style="color: #d32f2f;">Logout Account</div><span>›</span></div>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="switchTab('home', this)"><span>🏠</span>Home</div>
+      <div class="nav-item" onclick="switchTab('products', this)"><span>📦</span>Products</div>
+      <div class="nav-item" onclick="switchTab('work', this)"><span>📋</span>Work</div>
+      <div class="nav-item" onclick="switchTab('team', this)"><span>👥</span>Team</div>
+      <div class="nav-item active" onclick="switchTab('assets', this)"><span>💼</span>Assets</div>
+    </div>
+  </div>
+
+  <script>
+    let usersDB = JSON.parse(localStorage.getItem("usersDB")) || [];
+    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+    let pendingRequests = JSON.parse(localStorage.getItem("pendingRequests")) || [];
+
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const refCode = urlParams.get('ref');
+      if(refCode) document.getElementById("reg-ref").value = refCode;
+      
+      if(currentUser && currentUser.email) {
+        let latest = usersDB.find(u => u.email === currentUser.email);
+        if(latest) { currentUser = latest; localStorage.setItem("currentUser", JSON.stringify(currentUser)); showPortal(); }
+      }
+    };
+
+    document.getElementById("link-show-login").onclick = (e) => {
+      e.preventDefault(); document.getElementById("reg-card").style.display = "none"; document.getElementById("login-card").style.display = "block";
+    };
+    document.getElementById("link-back-reg").onclick = (e) => {
+      e.preventDefault(); document.getElementById("login-card").style.display = "none"; document.getElementById("reg-card").style.display = "block";
+    };
+
+    document.getElementById("btn-register").onclick = function() {
+      usersDB = JSON.parse(localStorage.getItem("usersDB")) || [];
+      const name = document.getElementById("reg-name").value.trim();
+      const phone = document.getElementById("reg-phone").value.trim();
+      const email = document.getElementById("reg-email").value.trim().toLowerCase();
+      const pass = document.getElementById("reg-pass").value;
+      const refCode = document.getElementById("reg-ref").value.trim();
+
+      if(!name || !phone || !email || pass.length < 8) { alert("Sabhi details bharein (Min password 8 digits)!"); return; }
+      if(usersDB.find(u => u.email === email)) { alert("Email pehle se registered hai!"); return; }
+
+      const uniqueId = Math.floor(100000000 + Math.random() * 900000000).toString();
+      const randomBonus = 40;
+      const newUser = { uniqueId, name, phone, email, password: pass, referredBy: refCode, balance: randomBonus, lastCheckIn: "", teamMembers: [], history: [] };
+
+      let referrerUser = usersDB.find(u => u.uniqueId === refCode);
+      if(referrerUser) {
+        if(!referrerUser.teamMembers) referrerUser.teamMembers = [];
+        referrerUser.teamMembers.push({ name, uniqueId, phone, date: new Date().toDateString() });
+      }
+
+      usersDB.push(newUser);
+      currentUser = newUser;
+      localStorage.setItem("usersDB", JSON.stringify(usersDB));
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      alert("Registration Successful!");
+      showPortal();
+    };
+
+    document.getElementById("btn-login").onclick = function() {
+      usersDB = JSON.parse(localStorage.getItem("usersDB")) || [];
+      let loginId = document.getElementById("login-email").value.trim().toLowerCase();
+      let pass = document.getElementById("login-pass").value;
+      let user = usersDB.find(u => (u.email === loginId || u.phone === loginId) && u.password === pass);
+
+      if(user) {
+        currentUser = user;
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+        showPortal();
+      } else { alert("Galat Email ya Password!"); }
+    };
+
+    function openDepositModal() { document.getElementById("deposit-modal").style.display = "flex"; }
+    function closeDepositModal() { document.getElementById("deposit-modal").style.display = "none"; }
+
+    function submitUpiDeposit(appName) {
+      let amt = parseFloat(document.getElementById("deposit-amount-input").value);
+      let utrId = document.getElementById("deposit-utr-input").value.trim();
+      if(!amt || amt <= 0 || !utrId) { alert("Sahi Amount aur UTR ID bharein!"); return; }
+      closeDepositModal();
+
+      let reqObj = {
+        id: 'REQ_' + Math.floor(100000 + Math.random() * 900000),
+        type: "Deposit",
+        userEmail: currentUser.email,
+        userName: currentUser.name,
+        userPhone: currentUser.phone,
+        amount: amt,
+        appName: appName,
+        utrId: utrId,
+        date: new Date().toDateString(),
+        status: "Pending ⏳"
+      };
+
+      pendingRequests = JSON.parse(localStorage.getItem("pendingRequests")) || [];
+      pendingRequests.push(reqObj);
+      localStorage.setItem("pendingRequests", JSON.stringify(pendingRequests));
+      alert("Deposit request admin ke paas bhej di gayi hai!");
+    }
+
+    function openWithdrawModal() {
+      let amt = prompt("Withdrawal Amount (₹):");
+      if(amt && !isNaN(amt) && amt > 0) {
+        let val = parseFloat(amt);
+        if(currentUser.balance >= val) {
+          currentUser.balance -= val;
+          let reqObj = {
+            id: 'REQ_' + Math.floor(100000 + Math.random() * 900000),
+            type: "Withdrawal",
+            userEmail: currentUser.email,
+            userName: currentUser.name,
+            userPhone: currentUser.phone,
+            amount: val,
+            date: new Date().toDateString(),
+            status: "Pending ⏳"
+          };
+          pendingRequests = JSON.parse(localStorage.getItem("pendingRequests")) || [];
+          pendingRequests.push(reqObj);
+          localStorage.setItem("pendingRequests", JSON.stringify(pendingRequests));
+          updateStorage();
+          alert("Withdrawal request bhej di gayi hai!");
+        } else { alert("Insufficient Balance!"); }
+      }
+    }
+
+    function buyPlan(price, name, inc, days) {
+      if(currentUser.balance < price) { alert("Balance kam hai!"); return; }
+      currentUser.balance -= price;
+      if(!currentUser.history) currentUser.history = [];
+      currentUser.history.push({ type: "Investment Plan", details: name, amount: price, status: "Active" });
+      updateStorage();
+      alert("Plan Purchased!");
+    }
+
+    function claimDailyBonus() {
+      let today = new Date().toDateString();
+      if(currentUser.lastCheckIn === today) { alert("Aaj ka bonus mil chuka hai!"); return; }
+      currentUser.balance += 10;
+      currentUser.lastCheckIn = today;
+      updateStorage();
+      alert("₹10 Bonus Added!");
+    }
+
+    function switchTab(name, el) {
+      document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active-sec'));
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active-sec');
+      el.classList.add('active');
+    }
+
+    function logoutUser() { localStorage.removeItem("currentUser"); location.reload(); }
+
+    function showPortal() {
+      document.getElementById("auth-section").style.display = "none";
+      document.getElementById("portal-container").style.display = "block";
+      document.getElementById("user-balance").innerText = currentUser.balance.toFixed(2);
+      document.getElementById("profile-phone").innerText = currentUser.phone;
+      document.getElementById("profile-uid").innerText = currentUser.uniqueId;
+      document.getElementById("referral-link-text").innerText = `${window.location.origin}${window.location.pathname}?ref=${currentUser.uniqueId}`;
+      
+      let tList = document.getElementById("team-members-list");
+      tList.innerHTML = (currentUser.teamMembers && currentUser.teamMembers.length > 0) ? 
+        currentUser.teamMembers.map(m => `<div><b>${m.name}</b> (${m.phone})</div>`).join('') : "Koi member nahi hai.";
+    }
+
+    function updateStorage() {
+      usersDB = JSON.parse(localStorage.getItem("usersDB")) || [];
+      let idx = usersDB.findIndex(u => u.email === currentUser.email);
+      if(idx !== -1) usersDB[idx] = currentUser;
+      localStorage.setItem("usersDB", JSON.stringify(usersDB));
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      showPortal();
+    }
+    function copyReferralLink() { navigator.clipboard.writeText(document.getElementById("referral-link-text").innerText); alert("Copied!"); }
+  </script>
+</body>
+</html>
