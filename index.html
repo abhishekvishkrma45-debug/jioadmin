@@ -21,6 +21,7 @@
     input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; outline: none; }
     .btn { width: 100%; margin-top: 15px; padding: 12px; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; color: white; background: var(--primary-color); }
     .btn-accent { background: var(--accent-color); }
+    .btn-disabled { background: #cccccc !important; cursor: not-allowed !important; }
     
     .jio-header { background: linear-gradient(135deg, #0a58ca, #0d6efd); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 10px rgba(10,88,202,0.3); }
     .jio-logo { font-size: 22px; font-weight: 900; letter-spacing: 1px; }
@@ -164,7 +165,7 @@
             <div class="plan-title" style="color: #d93829;">⚡ Jio Hourly Fast Plan (₹180)</div>
             <div class="plan-details">• Investment: <b>₹180</b> | Duration: <b>1 Hour</b><br>• Total Return: <b>₹200</b></div>
             <div class="calc-box" style="background:#ffebee; color:#c62828;">Profit: ₹20 in 1 Hour</div>
-            <button class="btn btn-accent" onclick="buyPlan(180, 'Jio Hourly Fast Plan (₹180)', 200, '1 Hour')">Invest ₹180 (1 Hour)</button>
+            <button class="btn btn-accent" id="btn-plan-180" onclick="buyPlan(180, 'Jio Hourly Fast Plan (₹180)', 200, '1 Hour')">Invest ₹180 (1 Hour)</button>
           </div>
 
           <!-- Plan 1 -->
@@ -172,7 +173,7 @@
             <div class="plan-title">📦 Jio Starter Plan (₹380)</div>
             <div class="plan-details">• Investment: <b>₹380</b> | Duration: <b>2 Days</b><br>• Daily Income: <b>₹76 / Day</b></div>
             <div class="calc-box">Total Return: ₹532</div>
-            <button class="btn" onclick="buyPlan(380, 'Jio Starter Plan (₹380)', 532, '2 Days')">Invest ₹380</button>
+            <button class="btn" id="btn-plan-380" onclick="buyPlan(380, 'Jio Starter Plan (₹380)', 532, '2 Days')">Invest ₹380</button>
           </div>
 
           <!-- Plan 2 -->
@@ -180,7 +181,7 @@
             <div class="plan-title">🚀 Jio Bronze Plan (₹800)</div>
             <div class="plan-details">• Investment: <b>₹800</b> | Duration: <b>4 Days</b><br>• Daily Income: <b>₹210 / Day</b></div>
             <div class="calc-box">Total Return: ₹840 (Profit)</div>
-            <button class="btn" onclick="buyPlan(800, 'Jio Bronze Plan (₹800)', 840, '4 Days')">Invest ₹800</button>
+            <button class="btn" id="btn-plan-800" onclick="buyPlan(800, 'Jio Bronze Plan (₹800)', 840, '4 Days')">Invest ₹800</button>
           </div>
 
           <!-- Plan 3 -->
@@ -188,7 +189,7 @@
             <div class="plan-title">🔥 Jio Silver Plan (₹1,800)</div>
             <div class="plan-details">• Investment: <b>₹1,800</b> | Duration: <b>5 Days</b><br>• Daily Income: <b>₹480 / Day</b></div>
             <div class="calc-box">Total Return: ₹2,400</div>
-            <button class="btn" onclick="buyPlan(1800, 'Jio Silver Plan (₹1,800)', 2400, '5 Days')">Invest ₹1,800</button>
+            <button class="btn" id="btn-plan-1800" onclick="buyPlan(1800, 'Jio Silver Plan (₹1,800)', 2400, '5 Days')">Invest ₹1,800</button>
           </div>
 
           <!-- Plan 4 -->
@@ -196,7 +197,7 @@
             <div class="plan-title">⭐ Jio Gold Plan (₹3,500)</div>
             <div class="plan-details">• Investment: <b>₹3,500</b> | Duration: <b>7 Days</b><br>• Daily Income: <b>₹950 / Day</b></div>
             <div class="calc-box">Total Return: ₹6,650</div>
-            <button class="btn" onclick="buyPlan(3500, 'Jio Gold Plan (₹3,500)', 6650, '7 Days')">Invest ₹3,500</button>
+            <button class="btn" id="btn-plan-3500" onclick="buyPlan(3500, 'Jio Gold Plan (₹3,500)', 6650, '7 Days')">Invest ₹3,500</button>
           </div>
 
           <!-- Plan 5 -->
@@ -204,7 +205,7 @@
             <div class="plan-title">👑 Jio Platinum Plan (₹7,000)</div>
             <div class="plan-details">• Investment: <b>₹7,000</b> | Duration: <b>10 Days</b><br>• Daily Income: <b>₹1,950 / Day</b></div>
             <div class="calc-box">Total Return: ₹19,500</div>
-            <button class="btn" onclick="buyPlan(7000, 'Jio Platinum Plan (₹7,000)', 19500, '10 Days')">Invest ₹7,000</button>
+            <button class="btn" id="btn-plan-7000" onclick="buyPlan(7000, 'Jio Platinum Plan (₹7,000)', 19500, '10 Days')">Invest ₹7,000</button>
           </div>
 
         </div>
@@ -327,7 +328,7 @@
 
       const uniqueId = Math.floor(100000000 + Math.random() * 900000000).toString();
       const randomBonus = 40;
-      const newUser = { uniqueId, name, phone, email, password: pass, referredBy: refCode, balance: randomBonus, lastCheckIn: "", teamMembers: [], history: [], activePlan: null, bankDetails: null };
+      const newUser = { uniqueId, name, phone, email, password: pass, referredBy: refCode, balance: randomBonus, lastCheckIn: "", teamMembers: [], history: [], activePlan: null, purchasedPlans: [], bankDetails: null };
 
       let referrerUser = usersDB.find(u => u.uniqueId === refCode);
       if(referrerUser) {
@@ -354,6 +355,7 @@
 
       if(user) {
         currentUser = user;
+        if(!currentUser.purchasedPlans) currentUser.purchasedPlans = [];
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
         showPortal();
       } else { alert("Galat Email ya Password!"); }
@@ -466,9 +468,17 @@
     }
 
     function buyPlan(price, name, returnAmt, durationText) {
+      if(!currentUser.purchasedPlans) currentUser.purchasedPlans = [];
+      if(currentUser.purchasedPlans.includes(price)) {
+        alert("Aap yeh plan pehle hi kharid chuke hain! Ek user is plan ko dubara nahi kharid sakta.");
+        return;
+      }
+
       if(currentUser.balance < price) { alert("Balance kam hai! Pehle deposit karein."); return; }
       currentUser.balance -= price;
       
+      currentUser.purchasedPlans.push(price);
+
       // Set Active Plan
       currentUser.activePlan = {
         name: name,
@@ -512,6 +522,22 @@
       document.getElementById("profile-uid").innerText = currentUser.uniqueId;
       document.getElementById("referral-link-text").innerText = `${window.location.origin}${window.location.pathname}?ref=${currentUser.uniqueId}`;
       
+      if(!currentUser.purchasedPlans) currentUser.purchasedPlans = [];
+      
+      // Update plan buttons based on purchase status
+      const planPrices = [180, 380, 800, 1800, 3500, 7000];
+      planPrices.forEach(p => {
+        let btn = document.getElementById("btn-plan-" + p);
+        if(btn) {
+          if(currentUser.purchasedPlans.includes(p)) {
+            btn.innerText = "Already Purchased ❌";
+            btn.classList.add("btn-disabled");
+          } else {
+            btn.classList.remove("btn-disabled");
+          }
+        }
+      });
+
       let tList = document.getElementById("team-members-list");
       tList.innerHTML = (currentUser.teamMembers && currentUser.teamMembers.length > 0) ? 
         currentUser.teamMembers.map(m => `<div style="padding:6px 0; border-bottom:1px solid #eee;"><b>${m.name}</b> (${m.phone})</div>`).join('') : "Abhi koi team member nahi hai.";
