@@ -45,7 +45,7 @@
 
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; }
     .modal-box { background: white; width: 90%; max-width: 400px; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); max-height: 85vh; overflow-y: auto; }
-    .upi-option-btn { width: 100%; padding: 10px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; font-weight: bold; cursor: pointer; text-align: left; background: #f9f9f9; display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
+    .upi-option-btn { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; font-weight: bold; cursor: pointer; text-align: left; background: #f9f9f9; display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
 
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); padding: 8px 0; z-index: 1000; }
     .nav-item { text-align: center; font-size: 11px; color: #777; cursor: pointer; font-weight: 600; flex: 1; }
@@ -91,22 +91,40 @@
     </div>
   </div>
 
-  <!-- DEPOSIT MODAL -->
-  <div id="deposit-modal" class="modal-overlay">
+  <!-- DEPOSIT MODAL STEP 1: AMOUNT -->
+  <div id="deposit-modal-1" class="modal-overlay">
     <div class="modal-box">
-      <h3 style="color:var(--primary-color); margin-bottom:10px;">📥 Deposit Funds</h3>
-      <div style="background:#e7f1ff; padding:8px; border-radius:6px; font-size:12px; color:#0a58ca; margin-bottom:10px;">
-        Official UPI ID: <b>jiodhan@ptyes</b>
-      </div>
+      <h3 style="color:var(--primary-color); margin-bottom:10px;">📥 Deposit Funds (Step 1)</h3>
       <label>Enter Amount (₹)</label>
-      <input type="number" id="deposit-amount-input" placeholder="e.g. 500" style="margin-bottom:8px;">
-      <label>Enter 12-Digit UTR / Transaction ID</label>
-      <input type="text" id="deposit-utr-input" placeholder="e.g. 426512345678" style="margin-bottom:12px;">
+      <input type="number" id="deposit-amount-input" placeholder="e.g. 500" style="margin-bottom:15px;">
+      <button class="btn" onclick="proceedToPaymentApps()">Proceed to Pay</button>
+      <button class="btn btn-accent" style="margin-top:8px;" onclick="closeDepositModal1()">Cancel</button>
+    </div>
+  </div>
 
-      <div class="upi-option-btn" onclick="submitUpiDeposit('Paytm')"><span>📱 Paytm UPI</span></div>
-      <div class="upi-option-btn" onclick="submitUpiDeposit('PhonePe')"><span>🟣 PhonePe UPI</span></div>
-      <div class="upi-option-btn" onclick="submitUpiDeposit('Google Pay')"><span>🔵 Google Pay</span></div>
-      <button class="btn btn-accent" style="margin-top:12px;" onclick="closeDepositModal()">Cancel</button>
+  <!-- DEPOSIT MODAL STEP 2: CHOOSE APP & PAY -->
+  <div id="deposit-modal-2" class="modal-overlay">
+    <div class="modal-box">
+      <h3 style="color:var(--primary-color); margin-bottom:5px;">💳 Choose Payment App</h3>
+      <p style="font-size:12px; color:#666; margin-bottom:10px;">Amount: <b id="pay-display-amt">₹0</b> to UPI: <b style="color:var(--primary-color);">jiodhan@ptyes</b></p>
+      
+      <div class="upi-option-btn" onclick="openUpiApp('paytm')"><span>📱 Pay via Paytm</span> <span>➔</span></div>
+      <div class="upi-option-btn" onclick="openUpiApp('phonepe')"><span>🟣 Pay via PhonePe</span> <span>➔</span></div>
+      <div class="upi-option-btn" onclick="openUpiApp('gpay')"><span>🔵 Pay via Google Pay</span> <span>➔</span></div>
+
+      <button class="btn" style="margin-top:15px; background:#28a745;" onclick="openUtrModal()">I Have Paid, Enter UTR</button>
+      <button class="btn btn-accent" style="margin-top:8px;" onclick="closeDepositModal2()">Back</button>
+    </div>
+  </div>
+
+  <!-- DEPOSIT MODAL STEP 3: UTR SUBMISSION -->
+  <div id="deposit-modal-3" class="modal-overlay">
+    <div class="modal-box">
+      <h3 style="color:var(--primary-color); margin-bottom:10px;">📝 Enter UTR / Transaction ID</h3>
+      <label>12-Digit UTR Number</label>
+      <input type="text" id="deposit-utr-input" placeholder="e.g. 426512345678" style="margin-bottom:15px;">
+      <button class="btn" onclick="submitFinalDeposit()">Submit Deposit Request</button>
+      <button class="btn btn-accent" style="margin-top:8px;" onclick="closeDepositModal3()">Cancel</button>
     </div>
   </div>
 
@@ -184,11 +202,16 @@
         </div>
       </div>
 
-      <!-- TAB 2: PRODUCTS & HISTORY (BILLS) -->
+      <!-- TAB 2: PRODUCTS & ACTIVE PLANS (MY PLAN) -->
       <div id="tab-products" class="section-view">
         <div class="card">
-          <h3>📦 My Invested Products & History</h3>
-          <div id="my-products-list" style="font-size:13px; color:#555;">Koi investment history nahi hai.</div>
+          <h3>📦 My Active Plan & History</h3>
+          <div style="background:#e8f5e9; border:1px solid #c8e6c9; padding:12px; border-radius:8px; margin-bottom:15px;">
+            <div style="font-weight:bold; color:#2e7d32; font-size:14px; margin-bottom:4px;">🟢 Currently Running Plan (`My Plan`):</div>
+            <div id="active-plan-status" style="font-size:13px; color:#333;">Koi bhi plan active nahi hai.</div>
+          </div>
+          <h4 style="font-size:14px; margin-bottom:8px; color:#444;">Transaction History</h4>
+          <div id="my-products-list" style="font-size:13px; color:#555;">Koi history nahi hai.</div>
         </div>
       </div>
 
@@ -227,7 +250,7 @@
         </div>
         
         <div class="quick-actions">
-          <div class="action-btn" onclick="openDepositModal()"><div class="action-icon">📥</div>Deposit</div>
+          <div class="action-btn" onclick="openDepositModal1()"><div class="action-icon">📥</div>Deposit</div>
           <div class="action-btn" onclick="openWithdrawModal()"><div class="action-icon">📤</div>Withdraw</div>
           <div class="action-btn" onclick="openBankModal()"><div class="action-icon">🏦</div>Bank/UPI</div>
         </div>
@@ -245,7 +268,7 @@
     <!-- BOTTOM NAVBAR -->
     <div class="bottom-nav">
       <div class="nav-item active" onclick="switchTab('home', this)"><span>🏠</span>Home</div>
-      <div class="nav-item" onclick="switchTab('products', this)"><span>📦</span>History</div>
+      <div class="nav-item" onclick="switchTab('products', this)"><span>📦</span>My Plan</div>
       <div class="nav-item" onclick="switchTab('work', this)"><span>📋</span>Work</div>
       <div class="nav-item" onclick="switchTab('team', this)"><span>👥</span>Team</div>
       <div class="nav-item" onclick="switchTab('assets', this)"><span>💼</span>Assets</div>
@@ -256,6 +279,8 @@
     let usersDB = JSON.parse(localStorage.getItem("usersDB")) || [];
     let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
     let pendingRequests = JSON.parse(localStorage.getItem("pendingRequests")) || [];
+    let currentDepositAmount = 0;
+    let selectedAppChoice = '';
 
     window.onload = function() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -294,7 +319,7 @@
 
       const uniqueId = Math.floor(100000000 + Math.random() * 900000000).toString();
       const randomBonus = 40;
-      const newUser = { uniqueId, name, phone, email, password: pass, referredBy: refCode, balance: randomBonus, lastCheckIn: "", teamMembers: [], history: [], bankDetails: null };
+      const newUser = { uniqueId, name, phone, email, password: pass, referredBy: refCode, balance: randomBonus, lastCheckIn: "", teamMembers: [], history: [], activePlan: null, bankDetails: null };
 
       let referrerUser = usersDB.find(u => u.uniqueId === refCode);
       if(referrerUser) {
@@ -326,9 +351,67 @@
       } else { alert("Galat Email ya Password!"); }
     };
 
-    function openDepositModal() { document.getElementById("deposit-modal").style.display = "flex"; }
-    function closeDepositModal() { document.getElementById("deposit-modal").style.display = "none"; }
+    // Deposit Flow Functions
+    function openDepositModal1() { document.getElementById("deposit-modal-1").style.display = "flex"; }
+    function closeDepositModal1() { document.getElementById("deposit-modal-1").style.display = "none"; }
 
+    function proceedToPaymentApps() {
+      let amt = parseFloat(document.getElementById("deposit-amount-input").value);
+      if(!amt || amt <= 0) { alert("Kripya sahi deposit amount enter karein!"); return; }
+      currentDepositAmount = amt;
+      document.getElementById("pay-display-amt").innerText = "₹" + amt;
+      closeDepositModal1();
+      document.getElementById("deposit-modal-2").style.display = "flex";
+    }
+
+    function closeDepositModal2() { document.getElementById("deposit-modal-2").style.display = "none"; }
+
+    function openUpiApp(appName) {
+      selectedAppChoice = appName;
+      let upiId = "jiodhan@ptyes";
+      let amount = currentDepositAmount;
+      let upiLink = `upi://pay?pa=${upiId}&am=${amount}&cu=INR`;
+
+      // Redirect user directly to Paytm / PhonePe / GPay app via UPI scheme
+      window.location.href = upiLink;
+    }
+
+    function openUtrModal() {
+      document.getElementById("deposit-modal-2").style.display = "none";
+      document.getElementById("deposit-modal-3").style.display = "flex";
+    }
+    function closeDepositModal3() { document.getElementById("deposit-modal-3").style.display = "none"; }
+
+    function submitFinalDeposit() {
+      let utrId = document.getElementById("deposit-utr-input").value.trim();
+      if(!utrId || utrId.length < 8) { alert("Kripya valid 12-digit UTR ID enter karein!"); return; }
+      closeDepositModal3();
+
+      let reqObj = {
+        id: 'REQ_' + Math.floor(100000 + Math.random() * 900000),
+        type: "Deposit",
+        userEmail: currentUser.email,
+        userName: currentUser.name,
+        userPhone: currentUser.phone,
+        amount: currentDepositAmount,
+        appName: selectedAppChoice || 'UPI App',
+        utrId: utrId,
+        date: new Date().toDateString(),
+        status: "Pending ⏳"
+      };
+
+      pendingRequests = JSON.parse(localStorage.getItem("pendingRequests")) || [];
+      pendingRequests.push(reqObj);
+      localStorage.setItem("pendingRequests", JSON.stringify(pendingRequests));
+
+      if(!currentUser.history) currentUser.history = [];
+      currentUser.history.push({ type: "Deposit Request", details: `₹${currentDepositAmount} via UPI (UTR: ${utrId})`, status: "Pending ⏳" });
+      updateStorage();
+
+      alert("Deposit request safalpurvak bhej di gayi hai! Admin verify karke balance update kar dega.");
+    }
+
+    // Bank Modal
     function openBankModal() { document.getElementById("bank-modal").style.display = "flex"; }
     function closeBankModal() { document.getElementById("bank-modal").style.display = "none"; }
 
@@ -344,36 +427,6 @@
       closeBankModal();
       alert("Bank details saved successfully!");
       showPortal();
-    }
-
-    function submitUpiDeposit(appName) {
-      let amt = parseFloat(document.getElementById("deposit-amount-input").value);
-      let utrId = document.getElementById("deposit-utr-input").value.trim();
-      if(!amt || amt <= 0 || !utrId) { alert("Sahi Amount aur UTR ID bharein!"); return; }
-      closeDepositModal();
-
-      let reqObj = {
-        id: 'REQ_' + Math.floor(100000 + Math.random() * 900000),
-        type: "Deposit",
-        userEmail: currentUser.email,
-        userName: currentUser.name,
-        userPhone: currentUser.phone,
-        amount: amt,
-        appName: appName,
-        utrId: utrId,
-        date: new Date().toDateString(),
-        status: "Pending ⏳"
-      };
-
-      pendingRequests = JSON.parse(localStorage.getItem("pendingRequests")) || [];
-      pendingRequests.push(reqObj);
-      localStorage.setItem("pendingRequests", JSON.stringify(pendingRequests));
-
-      if(!currentUser.history) currentUser.history = [];
-      currentUser.history.push({ type: "Deposit Request", details: `₹${amt} via ${appName} (UTR: ${utrId})`, status: "Pending ⏳" });
-      updateStorage();
-
-      alert("Deposit request admin ke paas bhej di gayi hai!");
     }
 
     function openWithdrawModal() {
@@ -409,10 +462,20 @@
     function buyPlan(price, name, inc, days) {
       if(currentUser.balance < price) { alert("Balance kam hai! Pehle deposit karein."); return; }
       currentUser.balance -= price;
+      
+      // Set Active Plan
+      currentUser.activePlan = {
+        name: name,
+        price: price,
+        dailyIncome: inc,
+        duration: days,
+        purchasedDate: new Date().toDateString()
+      };
+
       if(!currentUser.history) currentUser.history = [];
       currentUser.history.push({ type: "Plan Investment", details: `${name} - ₹${price}`, status: "Active ✅" });
       updateStorage();
-      alert("Plan Successfully Purchased!");
+      alert("Plan Successfully Purchased & Activated!");
     }
 
     function claimDailyBonus() {
@@ -446,6 +509,14 @@
       let tList = document.getElementById("team-members-list");
       tList.innerHTML = (currentUser.teamMembers && currentUser.teamMembers.length > 0) ? 
         currentUser.teamMembers.map(m => `<div style="padding:6px 0; border-bottom:1px solid #eee;"><b>${m.name}</b> (${m.phone})</div>`).join('') : "Abhi koi team member nahi hai.";
+
+      // Active Plan UI display
+      let activePlanDiv = document.getElementById("active-plan-status");
+      if(currentUser.activePlan) {
+        activePlanDiv.innerHTML = `<b>${currentUser.activePlan.name}</b><br>• Invested: ₹${currentUser.activePlan.price}<br>• Daily Income: ₹${currentUser.activePlan.dailyIncome}<br>• Date: ${currentUser.activePlan.purchasedDate}`;
+      } else {
+        activePlanDiv.innerHTML = "Koi bhi plan active nahi hai. Home se plan invest karein.";
+      }
 
       let hList = document.getElementById("my-products-list");
       hList.innerHTML = (currentUser.history && currentUser.history.length > 0) ?
