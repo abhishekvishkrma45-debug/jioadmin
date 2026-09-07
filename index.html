@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jio Club - User & Admin Split System</title>
+  <title>Jio Club - Earning Portal</title>
   <style>
     :root {
       --primary-color: #0a58ca;
@@ -14,7 +14,7 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
     body { background: var(--bg-color); color: var(--text-color); padding-bottom: 70px; }
-    .main-container { max-width: 600px; margin: 0 auto; padding: 15px; }
+    .main-container { max-width: 500px; margin: 0 auto; padding: 15px; }
     .card { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 15px; }
     .card h3 { color: var(--primary-color); margin-bottom: 15px; border-bottom: 2px solid var(--primary-color); padding-bottom: 5px; font-size: 16px; }
     label { display: block; font-size: 13px; font-weight: bold; color: #555; margin-top: 10px; }
@@ -22,121 +22,114 @@
     .btn { width: 100%; margin-top: 15px; padding: 12px; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; color: white; background: var(--primary-color); }
     
     .jio-header { background: linear-gradient(135deg, #0a58ca, #0d6efd); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }
-    .jio-logo { font-size: 22px; font-weight: 900; }
+    .jio-logo { font-size: 20px; font-weight: 900; }
 
     table { width: 100%; border-collapse: collapse; margin-top: 10px; overflow-x: auto; display: block; }
     th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 12px; }
     th { background-color: var(--primary-color); color: white; }
 
-    .top-switcher { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-    .switch-btn { padding: 8px 15px; border: none; background: #ddd; font-weight: bold; border-radius: 5px; cursor: pointer; }
-    .switch-btn.active-switch { background: var(--primary-color); color: white; }
-    
-    .panel-view { display: none; }
-    .panel-view.active-panel { display: block; }
+    /* Hidden Admin Link at bottom */
+    .admin-access-bar { text-align: center; margin-top: 30px; padding: 10px; }
+    .admin-link-btn { background: none; border: none; color: #777; font-size: 12px; text-decoration: underline; cursor: pointer; }
   </style>
 </head>
 <body onload="initApp()">
 
-  <div class="main-container" style="padding-top: 20px;">
-    <!-- ऊपरी स्विच बटन (यूजर साइट और एडमिन पैनल अलग-अलग देखने के लिए) -->
-    <div class="top-switcher">
-      <button class="switch-btn active-switch" onclick="switchPanel('user', this)">👤 User Portal</button>
-      <button class="switch-btn" onclick="switchPanel('admin', this)">👑 Admin Panel</button>
+  <!-- 1. USER AUTH SECTION (Login / Register) -->
+  <div id="auth-section" class="main-container">
+    <div class="jio-header" style="justify-content:center; margin-top:20px;">
+      <div class="jio-logo">Jio Digital Club 🚀</div>
+    </div>
+    
+    <div class="card" id="reg-card">
+      <h3>📝 User Registration (Bonus ₹40)</h3>
+      <label>Full Name</label>
+      <input type="text" id="reg-name" placeholder="Enter Full Name">
+      <label>Mobile Number</label>
+      <input type="text" id="reg-phone" placeholder="10-digit mobile number">
+      <label>Email ID</label>
+      <input type="email" id="reg-email" placeholder="example@gmail.com">
+      <label>Password (Min 8 Digits)</label>
+      <input type="password" id="reg-pass" placeholder="Minimum 8 characters">
+      <button class="btn" onclick="registerUser()">Register Now</button>
+      <p style="margin-top: 15px; font-size: 13px; text-align: center;">
+        Already Registered? <a href="#" onclick="toggleAuth('login')" style="color:var(--primary-color);">Login Here</a>
+      </p>
     </div>
 
-    <!-- 1. USER PORTAL SECTION -->
-    <div id="user-panel" class="panel-view active-panel">
-      
-      <!-- Login/Register Box (Jab tak login nahi hai) -->
-      <div id="auth-box">
-        <div class="jio-header" style="justify-content:center;">
-          <div class="jio-logo">Jio Digital Club 🚀</div>
-        </div>
-        
-        <div class="card" id="reg-card">
-          <h3>📝 User Registration (Bonus ₹40)</h3>
-          <label>Full Name</label>
-          <input type="text" id="reg-name" placeholder="Enter Full Name">
-          <label>Mobile Number</label>
-          <input type="text" id="reg-phone" placeholder="10-digit mobile number">
-          <label>Email ID</label>
-          <input type="email" id="reg-email" placeholder="example@gmail.com">
-          <label>Password (Min 8 Digits)</label>
-          <input type="password" id="reg-pass" placeholder="Minimum 8 characters">
-          <button class="btn" onclick="registerUser()">Register Now</button>
-          <p style="margin-top: 15px; font-size: 13px; text-align: center;">
-            Already Registered? <a href="#" onclick="toggleAuth('login')" style="color:var(--primary-color);">Login Here</a>
-          </p>
-        </div>
+    <div class="card" id="login-card" style="display:none;">
+      <h3>🔐 User Login</h3>
+      <label>Email / Phone</label>
+      <input type="text" id="login-email" placeholder="Enter Email or Phone">
+      <label>Password</label>
+      <input type="password" id="login-pass" placeholder="Enter Password">
+      <button class="btn" onclick="loginUser()">Login Portal</button>
+      <p style="margin-top:15px; text-align: center;">
+        <a href="#" onclick="toggleAuth('reg')" style="color:var(--primary-color);">Back to Register</a>
+      </p>
+    </div>
+  </div>
 
-        <div class="card" id="login-card" style="display:none;">
-          <h3>🔐 User Login</h3>
-          <label>Email / Phone</label>
-          <input type="text" id="login-email" placeholder="Enter Email or Phone">
-          <label>Password</label>
-          <input type="password" id="login-pass" placeholder="Enter Password">
-          <button class="btn" onclick="loginUser()">Login Portal</button>
-          <p style="margin-top:15px; text-align: center;">
-            <a href="#" onclick="toggleAuth('reg')" style="color:var(--primary-color);">Back to Register</a>
-          </p>
-        </div>
-      </div>
-
-      <!-- User Dashboard (Login ke baad dikhega) -->
-      <div id="user-dashboard" style="display:none;">
-        <div class="jio-header">
-          <div class="jio-logo">Jio Club Dashboard</div>
-          <button onclick="logoutUser()" style="background:#ff3b30; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Logout</button>
-        </div>
-
-        <div class="card">
-          <h3>💎 Investment Plans</h3>
-          <p style="font-size:13px; color:#555;">Available Balance: <b>₹<span id="user-balance">40</span></b></p>
-          <div style="background:#f8f9fa; border:1px solid #ddd; padding:15px; border-radius:8px; margin-top:10px;">
-            <h4>Jio Starter Plan (₹380)</h4>
-            <p style="font-size:12px; color:#666; margin:5px 0;">Daily Return: ₹266 | Duration: 2 Days</p>
-            <button class="btn" onclick="buyPlan(380)">Invest ₹380</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>🏦 Add Bank / UPI Details (For Withdrawal)</h3>
-          <label>Account Holder Name</label>
-          <input type="text" id="bank-holder" placeholder="Name as per Bank">
-          <label>Account Number</label>
-          <input type="text" id="bank-acc" placeholder="Enter Account Number">
-          <label>IFSC Code</label>
-          <input type="text" id="bank-ifsc" placeholder="Enter IFSC Code">
-          <label>UPI ID</label>
-          <input type="text" id="bank-upi" placeholder="e.g. mobile@paytm">
-          <button class="btn" onclick="saveBankDetails()">Save Details</button>
-        </div>
-      </div>
-
+  <!-- 2. USER DASHBOARD SECTION (Original Earning Portal) -->
+  <div id="user-portal" class="main-container" style="display:none;">
+    <div class="jio-header">
+      <div class="jio-logo">Jio Club Portal</div>
+      <button onclick="logoutUser()" style="background:#ff3b30; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:12px;">Logout</button>
     </div>
 
-    <!-- 2. ADMIN PANEL SECTION -->
-    <div id="admin-panel" class="panel-view">
-      <div class="card" style="border-left: 5px solid #0a58ca;">
-        <h3>👑 Admin Panel: All Users & Bank Details</h3>
-        <p style="font-size: 12px; color: #666; margin-bottom: 10px;">यहाँ सभी रजिस्टर्ड ग्राहकों की यूजर आईडी, पासवर्ड और उनके बैंक/UPI विवरण दिखाई दे रहे हैं।</p>
-        <table>
-          <thead>
-            <tr>
-              <th>UID / Name</th>
-              <th>Phone / Email</th>
-              <th>Password</th>
-              <th>Bank / UPI Details</th>
-            </tr>
-          </thead>
-          <tbody id="adminUserTable">
-            <tr><td colspan="4" style="text-align:center;">डेटा लोड हो रहा है...</td></tr>
-          </tbody>
-        </table>
+    <div class="card">
+      <h3>💎 Jio Investment Plans</h3>
+      <p style="font-size:13px; color:#555;">Available Balance: <b>₹<span id="user-balance">40</span></b></p>
+      <div style="background:#f8f9fa; border:1px solid #ddd; padding:15px; border-radius:8px; margin-top:10px;">
+        <h4>Jio Starter Plan (₹380)</h4>
+        <p style="font-size:12px; color:#666; margin:5px 0;">Daily Return: ₹266 | Duration: 2 Days</p>
+        <button class="btn" onclick="buyPlan(380)">Invest ₹380</button>
       </div>
     </div>
 
+    <div class="card">
+      <h3>🏦 Add Bank / UPI Details (For Withdrawal)</h3>
+      <label>Account Holder Name</label>
+      <input type="text" id="bank-holder" placeholder="Name as per Bank">
+      <label>Account Number</label>
+      <input type="text" id="bank-acc" placeholder="Enter Account Number">
+      <label>IFSC Code</label>
+      <input type="text" id="bank-ifsc" placeholder="Enter IFSC Code">
+      <label>UPI ID</label>
+      <input type="text" id="bank-upi" placeholder="e.g. mobile@paytm">
+      <button class="btn" onclick="saveBankDetails()">Save Details</button>
+    </div>
+  </div>
+
+  <!-- 3. ADMIN PANEL SECTION (Completely Separated) -->
+  <div id="admin-section" class="main-container" style="display:none;">
+    <div class="jio-header" style="background: #333;">
+      <div class="jio-logo">👑 Admin Control Panel</div>
+      <button onclick="closeAdminPanel()" style="background:#ff3b30; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:12px;">Back to Site</button>
+    </div>
+
+    <div class="card">
+      <h3>All Registered Customers & Bank Details</h3>
+      <p style="font-size: 12px; color: #666; margin-bottom: 10px;">यहाँ सभी ग्राहकों की यूजर आईडी, पासवर्ड और उनके बैंक/UPI विवरण दिखाई दे रहे हैं।</p>
+      <table>
+        <thead>
+          <tr>
+            <th>UID / Name</th>
+            <th>Phone / Email</th>
+            <th>Password</th>
+            <th>Bank / UPI Details</th>
+          </tr>
+        </thead>
+        <tbody id="adminUserTable">
+          <tr><td colspan="4" style="text-align:center;">डेटा लोड हो रहा है...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Hidden Link to Open Admin Panel -->
+  <div class="admin-access-bar" id="admin-bar">
+    <button class="admin-link-btn" onclick="openAdminPanel()">🔒 Admin Panel Login</button>
   </div>
 
   <script>
@@ -145,25 +138,8 @@
 
     function initApp() {
       if (currentUser) {
-        document.getElementById("auth-box").style.display = "none";
-        document.getElementById("user-dashboard").style.display = "block";
-        document.getElementById("user-balance").innerText = currentUser.balance.toFixed(2);
-        loadUserBankInputs();
+        showUserPortal();
       }
-      loadAdminTable();
-    }
-
-    function switchPanel(type, el) {
-      document.querySelectorAll('.panel-view').forEach(p => p.classList.remove('active-panel'));
-      document.querySelectorAll('.switch-btn').forEach(b => b.classList.remove('active-switch'));
-      
-      if(type === 'user') {
-        document.getElementById('user-panel').classList.add('active-panel');
-      } else {
-        document.getElementById('admin-panel').classList.add('active-panel');
-        loadAdminTable(); // Admin kholte hi fresh data load hoga
-      }
-      el.classList.add('active-switch');
     }
 
     function toggleAuth(type) {
@@ -203,7 +179,7 @@
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
       alert("रजिस्ट्रेशन सफल रहा!");
-      initApp();
+      showUserPortal();
     }
 
     function loginUser() {
@@ -215,7 +191,7 @@
       if(user) {
         currentUser = user;
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        initApp();
+        showUserPortal();
       } else { 
         alert("गलत ईमेल/फोन या पासवर्ड!"); 
       }
@@ -224,12 +200,19 @@
     function logoutUser() {
       localStorage.removeItem("currentUser");
       currentUser = null;
-      document.getElementById("user-dashboard").style.display = "none";
-      document.getElementById("auth-box").style.display = "block";
+      document.getElementById("user-portal").style.display = "none";
+      document.getElementById("auth-section").style.display = "block";
+      document.getElementById("admin-bar").style.display = "block";
     }
 
-    function loadUserBankInputs() {
-      if(currentUser && currentUser.bankDetails) {
+    function showUserPortal() {
+      document.getElementById("auth-section").style.display = "none";
+      document.getElementById("admin-section").style.display = "none";
+      document.getElementById("admin-bar").style.display = "none";
+      document.getElementById("user-portal").style.display = "block";
+      document.getElementById("user-balance").innerText = currentUser.balance.toFixed(2);
+      
+      if(currentUser.bankDetails) {
         document.getElementById("bank-holder").value = currentUser.bankDetails.holder || '';
         document.getElementById("bank-acc").value = currentUser.bankDetails.acc || '';
         document.getElementById("bank-ifsc").value = currentUser.bankDetails.ifsc || '';
@@ -258,8 +241,7 @@
       localStorage.setItem("usersDB", JSON.stringify(usersDB));
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
       
-      alert("बैंक डिटेल्स सफलतापर्वक सेव कर दी गई हैं!");
-      loadAdminTable();
+      alert("बैंक डिटेल्स सफलतापूर्वक सेव कर दी गई हैं!");
     }
 
     function buyPlan(price) {
@@ -271,6 +253,29 @@
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
       document.getElementById("user-balance").innerText = currentUser.balance.toFixed(2);
       alert("प्लान सफलतापूर्वक खरीद लिया गया है!");
+    }
+
+    function openAdminPanel() {
+      let pass = prompt("एंटर एडमिन पासवर्ड दर्ज करें:");
+      if(pass === "admin123" || pass === "1234") { // साधारण पासवर्ड सुरक्षा
+        document.getElementById("auth-section").style.display = "none";
+        document.getElementById("user-portal").style.display = "none";
+        document.getElementById("admin-bar").style.display = "none";
+        document.getElementById("admin-section").style.display = "block";
+        loadAdminTable();
+      } else if(pass !== null) {
+        alert("गलत पासवर्ड!");
+      }
+    }
+
+    function closeAdminPanel() {
+      document.getElementById("admin-section").style.display = "none";
+      if(currentUser) {
+        document.getElementById("user-portal").style.display = "block";
+      } else {
+        document.getElementById("auth-section").style.display = "block";
+        document.getElementById("admin-bar").style.display = "block";
+      }
     }
 
     function loadAdminTable() {
